@@ -171,6 +171,7 @@
       </ol>
       <button class="btn grande" data-azione="nuova">Aggiungi la tua lega</button>
       <p class="tenue piccolo">Funziona per qualsiasi lega Classic. I tuoi dati restano su questo telefono.</p>
+      <button class="link" data-azione="importa-codice">Hai già le leghe su un altro telefono? Incolla il link</button>
     </section>
     <section class="card diversa">
       <h2>Cosa trovi solo qui</h2>
@@ -542,7 +543,12 @@
     <div class="azioni" style="margin-bottom:12px">
       <button class="btn" data-azione="salva-regole">Salva regole</button>
       <button class="btn pericolo" data-azione="elimina">Elimina lega</button>
-    </div>`;
+    </div>
+    <section class="card">
+      <h2>📲 Su un altro telefono</h2>
+      <p class="tenue piccolo">Copia un link con tutte le tue leghe (rose, regole, avversari) e mandatelo su WhatsApp o Messaggi. Aprilo sull'altro telefono e le ritrovi tutte.</p>
+      <button class="btn secondario" data-azione="esporta">Copia il link con le mie leghe</button>
+    </section>`;
   }
 
   // ---------- Scheda giocatore ----------
@@ -586,6 +592,71 @@
     f.hidden = false;
     requestAnimationFrame(() => f.classList.add("aperto"));
   }
+  // ---------- Trasferire le leghe su un altro telefono ----------
+  // Le leghe viaggiano dentro il link, dopo il "#": quella parte non arriva mai al server.
+  const compattaRosa = (rosa) => (rosa || []).map((g) => [g.nome, g.squadra, g.ruolo, g.quot || 0]);
+  const espandiRosa = (righe) => (righe || []).map(([nome, squadra, ruolo, quot]) => (quot ? { nome, squadra, ruolo, quot } : { nome, squadra, ruolo }));
+
+  function pacchetto(leghe) {
+    return leghe.map((l) => ({
+      n: l.nome, s: l.squadra || "", g: l.regole, r: compattaRosa(l.rosa),
+      a: (l.avversari || []).map((x) => [x.nome, compattaRosa(x.rosa)]),
+      v: l.avversario || null, f: l.fissi || [], e: l.esclusi || [],
+    }));
+  }
+  function spacchetta(p) {
+    return p.map((l, i) => ({
+      id: "l" + Date.now().toString(36) + i, nome: l.n, squadra: l.s, regole: { ...regoleBase(), ...l.g },
+      rosa: espandiRosa(l.r), avversari: (l.a || []).map(([nome, rosa]) => ({ nome, rosa: espandiRosa(rosa) })),
+      avversario: l.v, fissi: l.f || [], esclusi: l.e || [],
+    }));
+  }
+  const daBase64 = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
+
+  async function codiceLeghe(leghe) {
+    const testo = new TextEncoder().encode(JSON.stringify(pacchetto(leghe)));
+    if (window.CompressionStream) {
+      const compressi = new Uint8Array(await new Response(new Blob([testo]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer());
+      let s = "";
+      for (let i = 0; i < compressi.length; i += 8000) s += String.fromCharCode(...compressi.subarray(i, i + 8000));
+      return "z" + btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+    }
+    let s = "";
+    for (let i = 0; i < testo.length; i += 8000) s += String.fromCharCode(...testo.subarray(i, i + 8000));
+    return "j" + btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  async function leggiCodice(codice) {
+    const tipo = codice[0];
+    const bytes = daBase64(codice.slice(1));
+    const testo = tipo === "z"
+      ? await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text()
+      : new TextDecoder().decode(bytes);
+    return spacchetta(JSON.parse(testo));
+  }
+  function indirizzoApp() {
+    return location.hostname === "localhost" || location.hostname.startsWith("192.168.")
+      ? "https://alessandroamato555.github.io/fanta-consigli/"
+      : location.origin + location.pathname;
+  }
+  async function importa(codice) {
+    let nuove;
+    try { nuove = await leggiCodice(codice.trim().replace(/^.*#importa=/, "")); } catch (e) {
+      return avviso("Codice non valido: copialo di nuovo per intero");
+    }
+    if (!nuove.length) return;
+    const nomi = nuove.map((l) => l.nome).join(", ");
+    if (!confirm(`Aggiungere su questo telefono: ${nomi}?\nSe hai già una lega con lo stesso nome viene sostituita.`)) return;
+    for (const l of nuove) {
+      stato.leghe = stato.leghe.filter((x) => x.nome !== l.nome);
+      stato.leghe.push(l);
+    }
+    stato.attiva = nuove[0].id;
+    salva();
+    vista = "formazione";
+    disegna();
+    avviso(`Aggiunte: ${nomi}`);
+  }
+
   // ---------- Guida ----------
   const GUIDA = [
     ["⭐", "Cosa la rende diversa", `<ul>
@@ -778,6 +849,21 @@
         lega.moduloScelto = null;
         salva(); disegna(); return avviso("Torno al modulo consigliato");
       case "guida": return apriGuida();
+      case "esporta": {
+        const link = indirizzoApp() + "#importa=" + (await codiceLeghe(stato.leghe));
+        try {
+          await navigator.clipboard.writeText(link);
+          avviso("Link copiato: mandatelo e aprilo sull'altro telefono");
+        } catch (err) {
+          prompt("Copia questo link e aprilo sull'altro telefono:", link);
+        }
+        return;
+      }
+      case "importa-codice": {
+        const c = prompt("Incolla il link (o il codice) con le tue leghe:");
+        if (c) await importa(c);
+        return;
+      }
       case "salva-rose": {
         const lette = M.leggiLega($("#l-rose").value, squadre());
         if (!lette.length) return avviso("Non ho trovato squadre: metti il nome di ogni squadra su una riga da solo");
@@ -876,6 +962,12 @@
       avviso("Non riesco a caricare i dati della giornata");
     }
     disegna();
+    // Link con le leghe da un altro telefono
+    if (location.hash.startsWith("#importa=")) {
+      const codice = location.hash.slice("#importa=".length);
+      history.replaceState(null, "", location.pathname + location.search);
+      await importa(codice);
+    }
   }
   avvia();
 
