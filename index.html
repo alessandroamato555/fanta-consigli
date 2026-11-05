@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0f7a4a">
+  <title>Fanta Consigli</title>
+  <meta name="description" content="La formazione consigliata per la tua lega di fantacalcio, ogni giornata.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Fanta Consigli">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icona.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="marchio">
+      <img class="logo" src="icona.svg" alt="" width="30" height="30">
+      <span>Fanta Consigli</span>
+    </div>
+    <div class="top-destra">
+      <div id="giornata" class="giornata"></div>
+      <button class="info" data-azione="guida" aria-label="Come funziona">i</button>
+    </div>
+  </header>
+
+  <nav id="leghe" class="leghe" aria-label="Le tue leghe"></nav>
+
+  <main id="contenuto" class="contenuto"></main>
+
+  <nav id="schede" class="schede" aria-label="Sezioni"></nav>
+
+  <div id="avviso" class="avviso" role="status" aria-live="polite"></div>
+
+  <div id="foglio" class="foglio" hidden>
+    <div class="foglio-sfondo" data-chiudi></div>
+    <div class="foglio-pannello" role="dialog" aria-modal="true" aria-labelledby="foglio-titolo"></div>
+  </div>
+
+  <datalist id="lista-giocatori"></datalist>
+
+  <script src="motore.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

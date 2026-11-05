@@ -1,0 +1,16 @@
+{
+  "name": "Fanta Consigli",
+  "short_name": "Fanta Consigli",
+  "description": "La formazione consigliata per la tua lega di fantacalcio, ogni giornata.",
+  "lang": "it",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b100d",
+  "theme_color": "#0d7a47",
+  "icons": [
+    { "src": "icona-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icona-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icona.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
