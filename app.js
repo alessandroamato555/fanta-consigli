@@ -2,7 +2,7 @@
 (function () {
   const M = window.Motore;
   const CHIAVE = "fantaconsigli.v1";
-  const VERSIONE = 10; // da aumentare insieme a versione.json a ogni pubblicazione del codice
+  const VERSIONE = 11; // da aumentare insieme a versione.json a ogni pubblicazione del codice
   const MODULI_CLASSICI = ["3-4-3", "3-5-2", "4-3-3", "4-4-2", "4-5-1", "5-3-2", "5-4-1"];
   const MODULI_EXTRA = ["3-6-1", "5-2-3", "6-2-2", "6-3-1"];
   const NOMI_RUOLO = { P: "Portieri", D: "Difensori", C: "Centrocampisti", A: "Attaccanti" };
@@ -646,6 +646,11 @@
       <button class="btn" data-azione="salva-regole">Salva regole</button>
       <button class="btn pericolo" data-azione="elimina">Elimina lega</button>
     </div>
+    ${stato.fonte ? `<section class="card collegata">
+      <h2>🔗 Leghe collegate</h2>
+      <p class="tenue piccolo">Rose, calendario e classifica si aggiornano da sole ogni volta che apri l'app. Le tue scelte (sempre titolare, mai titolare) restano.</p>
+      <div class="azioni"><button class="btn secondario piccolo" data-azione="sincronizza">Controlla adesso</button><button class="btn secondario piccolo" data-azione="scollega">Scollega</button></div>
+    </section>` : ""}
     <section class="card">
       <h2>📲 Su un altro telefono</h2>
       <p class="tenue piccolo">Copia un link con tutte le tue leghe (rose, regole, avversari) e mandatelo su WhatsApp o Messaggi. Aprilo sull'altro telefono e le ritrovi tutte.</p>
@@ -1225,10 +1230,11 @@
         return avviso(`Salvate ${avversari.length} squadre avversarie${lega.squadra ? " · la tua è " + lega.squadra : ""}`);
       }
       case "nuova": vista = "nuova"; return disegna();
-      case "ricarica": {
-        try { const regs = await navigator.serviceWorker?.getRegistrations?.() || []; await Promise.all(regs.map((x) => x.update())); } catch (err) {}
-        return location.reload();
-      }
+      case "ricarica": return ricarica();
+      case "sincronizza": return sincronizza(true);
+      case "scollega":
+        if (!confirm("Scollegare? Le leghe restano sul telefono ma non si aggiornano più da sole.")) return;
+        stato.fonte = null; salva(); disegna(); return avviso("Scollegato");
       case "salva-calendario": {
         const mia = $("#c-mia").value.trim();
         const g = Number($("#c-giornata").value);
@@ -1343,10 +1349,28 @@
   }, 30000);
 
   // Se online c'è una versione più nuova, lo dico e la carico con un tocco
+  // Se online c'è una versione più nuova la carico da sola; se stai scrivendo qualcosa aspetto e mostro il tasto
+  function staiScrivendo() {
+    const a = document.activeElement;
+    return vista === "scegli" || vista === "nuova" || !$("#foglio").hidden ||
+      (a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) ||
+      [...document.querySelectorAll("textarea")].some((t) => t.value.trim());
+  }
+  async function ricarica() {
+    try { const regs = await navigator.serviceWorker?.getRegistrations?.() || []; await Promise.all(regs.map((x) => x.update())); } catch (err) {}
+    location.reload();
+  }
   async function controllaVersione() {
     try {
       const r = await fetch("versione.json", { cache: "no-store" });
       const v = (await r.json()).versione;
+      // Ricarico una volta sola per versione: se il telefono avesse ancora i file vecchi non entro in un giro infinito
+      let gia = null;
+      try { gia = sessionStorage.getItem("ricaricato"); } catch (e) {}
+      if (v > VERSIONE && !staiScrivendo() && gia !== String(v)) {
+        try { sessionStorage.setItem("ricaricato", String(v)); } catch (e) {}
+        return ricarica();
+      }
       if (v > VERSIONE && !$("#nuova-versione")) {
         const b = document.createElement("button");
         b.id = "nuova-versione"; b.className = "nuova-versione"; b.dataset.azione = "ricarica";
@@ -1355,7 +1379,43 @@
       }
     } catch (e) {}
   }
-  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") controllaVersione(); });
+
+  // ---------- Leghe collegate al Mac ----------
+  // Le leghe arrivano da un file segreto su GitHub (gist): a ogni apertura controllo se c'è una versione nuova.
+  async function sincronizza(mostra) {
+    const f = stato.fonte;
+    if (!f || !f.id) return;
+    try {
+      const r = await fetch(`https://api.github.com/gists/${encodeURIComponent(f.id)}`, { cache: "no-store" });
+      if (!r.ok) throw new Error(r.status);
+      const file = Object.values((await r.json()).files || {})[0];
+      if (!file) return;
+      const testo = file.truncated ? await (await fetch(file.raw_url, { cache: "no-store" })).text() : file.content;
+      const fonte = JSON.parse(testo);
+      if (!fonte.aggiornato || (f.ultimo && fonte.aggiornato <= f.ultimo)) return mostra && avviso("Le leghe sono già aggiornate");
+      if (staiScrivendo()) return; // riprovo la prossima volta, per non cancellare quello che stai facendo
+      for (const n of fonte.leghe || []) {
+        const vecchia = stato.leghe.find((l) => l.nome.toLowerCase() === n.nome.toLowerCase());
+        const nuovi = {
+          nome: n.nome, squadra: n.squadra, regole: { ...regoleBase(), ...n.regole }, rosa: n.rosa, avversari: n.avversari || [],
+          calendario: n.calendario || null, punti: n.punti || null,
+        };
+        // Tengo le tue scelte fatte sul telefono (sempre titolare, mai titolare, avversario scelto a mano)
+        if (vecchia) Object.assign(vecchia, nuovi);
+        else stato.leghe.push({ id: "l" + Date.now().toString(36) + stato.leghe.length, fissi: [], esclusi: [], ...nuovi });
+      }
+      f.ultimo = fonte.aggiornato;
+      salva();
+      disegna();
+      avviso("🔄 Leghe aggiornate");
+    } catch (e) {
+      if (mostra) avviso("Non riesco a scaricare le leghe: riprova tra poco");
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") { controllaVersione(); sincronizza(); }
+  });
 
   async function avvia() {
     controllaVersione();
@@ -1375,6 +1435,16 @@
       avviso("Non riesco a caricare i dati della giornata");
     }
     disegna();
+    // Link che collega il telefono alle leghe del Mac (basta aprirlo una volta)
+    if (location.hash.startsWith("#collega=")) {
+      const id = location.hash.slice("#collega=".length).replace(/[^a-f0-9]/gi, "");
+      history.replaceState(null, "", location.pathname + location.search);
+      stato.fonte = { id, ultimo: "" };
+      salva();
+      await sincronizza(true);
+      return;
+    }
+    sincronizza();
     // Link con le leghe da un altro telefono
     if (location.hash.startsWith("#importa=")) {
       const codice = location.hash.slice("#importa=".length);

@@ -418,8 +418,9 @@
       if (sez && riga.length < 40) { ruolo = sez[1]; continue; }
       if (unaSola) continue;
       const pulita = riga.replace(/[#*_`\t]/g, " ").trim();
-      if (pulita.length >= 80 || NON_SQUADRA.test(pulita) || /^[\d\s.,€:/-]+$/.test(pulita)) continue;
+      if (NON_SQUADRA.test(pulita) || /^[\d\s.,€:/-]+$/.test(pulita)) continue;
       const nome = pulita.split(/\s[—–-]\s|\s·\s|\(/)[0].replace(/\s+/g, " ").trim();
+      if (nome.length >= 50 || (pulita.length >= 80 && !/^\s*#/.test(riga))) continue;
       if (!nome || /^[PDCA]$/i.test(nome)) continue;
       if (attuale && !attuale.rosa.length) {
         // Un titolo "## Nome" vince sulla riga prima (es. il titolo della pagina)
