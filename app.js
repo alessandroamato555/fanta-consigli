@@ -179,6 +179,8 @@
         <div><span>🎯</span><b>Quanto spesso vinci</b><small>Simulo la sfida col tuo avversario 3.000 volte, con le soglie gol della tua lega</small></div>
         <div><span>🧠</span><b>Formazione anti-avversario</b><small>Il modulo che ti fa vincere più spesso contro quella squadra</small></div>
         <div><span>🔁</span><b>Scambi con la tua lega</b><small>Proposte equilibrate con le rose vere dei tuoi amici</small></div>
+        <div><span>🏆</span><b>Come finisce il campionato</b><small>Simulo il resto della stagione 2.000 volte col tuo calendario</small></div>
+        <div><span>📷</span><b>Rosa da screenshot</b><small>Carichi la foto della rosa e i giocatori si aggiungono da soli</small></div>
         <div><span>🔍</span><b>Ogni numero spiegato</b><small>Tocchi un giocatore e vedi il calcolo</small></div>
       </div>
       <button class="link" data-azione="guida">Come funziona ›</button>
@@ -349,8 +351,105 @@
   // ---------- Lega: avversario, classifica, scambi ----------
   function avversarioDiGiornata(lega) {
     const a = lega.avversario;
-    if (!a || a.giornata !== dati.giornata) return null;
-    return (lega.avversari || []).find((s) => s.nome === a.nome) || null;
+    if (a && a.giornata === dati.giornata) return (lega.avversari || []).find((s) => s.nome === a.nome) || null;
+    const p = partitaMia(lega, giornataLega(lega));
+    return p ? (lega.avversari || []).find((s) => s.nome === p.contro) || null : null;
+  }
+  // ---------- Calendario ----------
+  const giornataLega = (lega) => (lega.calendario ? (dati.giornata || 0) - lega.calendario.offset : 0);
+  function partitaMia(lega, g) {
+    if (!lega.calendario || !lega.squadra || g < 1) return null;
+    const p = M.partiteDi(lega.calendario.giornate, g).find(([x, y]) => x === lega.squadra || y === lega.squadra);
+    return p ? { casa: p[0] === lega.squadra, contro: p[0] === lega.squadra ? p[1] : p[0] } : null;
+  }
+  const fineLega = (lega) => 38 - lega.calendario.offset;
+
+  function formCalendario(lega, aperto) {
+    const g = lega.calendario ? giornataLega(lega) : "";
+    return `<label for="c-mia">Come si chiama la tua squadra nella lega</label>
+      <input id="c-mia" type="text" value="${esc(lega.squadra || "")}" placeholder="Es. Birkenstoke City" autocomplete="off">
+      <label for="c-giornata">Questa giornata (${dati.giornata || "?"}ª di Serie A) per la tua lega è la…</label>
+      <input id="c-giornata" type="number" min="1" max="38" inputmode="numeric" value="${g}" placeholder="Es. 9">
+      <label for="c-testo">Il calendario</label>
+      <div class="cerca-riga">
+        <p class="tenue piccolo" style="margin:10px 0 0">Carica gli screenshot del calendario (e se vuoi della classifica) oppure incollalo qui sotto.</p>
+        <label class="btn secondario foto">📷<span>Screenshot</span><input id="c-foto" type="file" accept="image/*" multiple hidden></label>
+      </div>
+      <div id="c-stato-foto" class="stato-foto" hidden></div>
+      <textarea id="c-testo" placeholder="1ª giornata&#10;Bocanapoli - Diabolikus&#10;Real Forio - Scarsenal&#10;...&#10;&#10;Classifica&#10;1 Bocanapoli 14&#10;..."></textarea>
+      <div class="azioni" style="margin-top:8px"><button class="btn" data-azione="salva-calendario">Salva il calendario</button></div>`;
+  }
+
+  function cardCalendario(lega) {
+    if (!lega.calendario) {
+      return `<section class="card"><h2>📅 Calendario</h2>
+        <p class="tenue">Con il calendario l'app sa da sola chi affronti ogni giornata, ti dice quanto sono difficili le prossime partite e come può finire il campionato.</p>
+        ${formCalendario(lega)}</section>`;
+    }
+    return `<section class="card"><h2>📅 Prossime sfide <small>${giornataLega(lega)}ª giornata di lega</small></h2>
+        <div id="prossime"><p class="tenue">Calcolo le prossime partite…</p></div>
+      </section>
+      <section class="card"><h2>🏆 Come può finire <small>2.000 campionati simulati</small></h2>
+        <div id="proiezione"><p class="tenue">Simulo il resto del campionato…</p></div>
+      </section>
+      <details class="card"><summary>Cambia il calendario o la classifica</summary>${formCalendario(lega)}</details>`;
+  }
+
+  // Forza "di stagione" di ogni squadra: chi ha un infortunio breve torna presto
+  function forzeStagione(lega) {
+    const dS = M.datiPerScambi(dati);
+    const squadre = [{ nome: lega.squadra, rosa: lega.rosa, mia: true }, ...(lega.avversari || [])];
+    const form = squadre.map((s) => ({ ...s, f: M.consiglia(s.rosa, dS, lega.regole) }));
+    const ok = form.filter((s) => !s.f.errore);
+    const media = ok.reduce((t, s) => t + s.f.previsti, 0) / (ok.length || 1);
+    const spostamento = (Number(lega.regole.mediaLega) || 72) - media;
+    return { form, spostamento };
+  }
+
+  function riempiCalendario(lega) {
+    if (!lega.calendario || !$("#prossime")) return;
+    setTimeout(() => {
+      const { form, spostamento } = forzeStagione(lega);
+      const per = new Map(form.map((s) => [s.nome, s]));
+      const mia = per.get(lega.squadra);
+      const g0 = giornataLega(lega);
+      let html = "";
+      for (let g = g0; g < g0 + 5 && g <= fineLega(lega); g++) {
+        const p = partitaMia(lega, g);
+        if (!p) continue;
+        const loro = per.get(p.contro);
+        let esito = null;
+        // Questa giornata: stessa % della sfida (dati di oggi); le prossime: con le rose "di stagione"
+        if (g === g0) { const a = analisiSfida(lega, calcola(lega)); if (a && a.avv.nome === p.contro) esito = a.esito; }
+        if (!esito && mia && !mia.f.errore && loro && !loro.f.errore) esito = M.simula(mia.f.candidati[0], loro.f.candidati[0], lega.regole, 1500, spostamento);
+        const v = esito ? Math.round(esito.vittoria * 100) : null;
+        const livello = v == null ? "" : v >= 50 ? "facile" : v >= 35 ? "media" : "dura";
+        html += `<div class="sfida-riga ${livello}">
+          <span class="g">${g}ª<small>${g + lega.calendario.offset}ª A</small></span>
+          <span class="contro"><b>${esc(p.contro)}</b><small>${p.casa ? "in casa" : "in trasferta"}${loro ? "" : " · rosa mancante"}</small></span>
+          ${esito ? `<span class="vinci"><b>${v}%</b><small>vinci</small></span>` : `<span></span>`}
+        </div>`;
+      }
+      $("#prossime").innerHTML = html || `<p class="tenue">Nel calendario non trovo le tue prossime partite: controlla il nome della tua squadra.</p>`;
+
+      // Proiezione della classifica
+      const squadre = form.filter((s) => !s.f.errore).map((s) => ({
+        nome: s.nome, mia: !!s.mia, media: s.f.previsti + spostamento, punti: (lega.punti || {})[s.nome] || 0,
+      }));
+      if (squadre.length < 2 || !$("#proiezione")) return;
+      const r = M.simulaStagione({ squadre, calendario: lega.calendario.giornate, da: g0, a: fineLega(lega), regole: lega.regole });
+      const haPunti = Object.keys(lega.punti || {}).length > 0;
+      const pc = (x) => (x >= 0.995 ? "99%" : x > 0 && x < 0.01 ? "<1%" : Math.round(x * 100) + "%");
+      $("#proiezione").innerHTML = `<div class="proiezione">
+          <div class="pr-testa"><span>#</span><span>Squadra</span><span>Ora</span><span>Fine</span><span>1°</span></div>
+          ${r.map((x, i) => `<div class="pr-riga ${x.mia ? "mia" : ""}"><span>${i + 1}</span><span class="pr-nome">${esc(x.nome)}</span>
+            <input type="number" inputmode="numeric" min="0" data-punti="${esc(x.nome)}" value="${haPunti ? x.punti : ""}" placeholder="0" aria-label="Punti di ${esc(x.nome)} adesso">
+            <b>${Math.round(x.puntiFinali)}</b><span class="pr-primo">${pc(x.primo)}</span></div>`).join("")}
+        </div>
+        ${(() => { const m = r.find((x) => x.mia); return m ? `<p class="piccolo">La tua squadra: <b>${pc(m.primo)}</b> di vincere, <b>${pc(m.podio)}</b> di arrivare nei primi 3, posizione media <b>${m.posizione.toFixed(1)}ª</b>.</p>` : ""; })()}
+        <p class="tenue piccolo">${haPunti ? "" : "Scrivi i punti in classifica di adesso nella colonna \"Ora\" per una previsione giusta. "}Fine = punti attesi a fine campionato, 1° = quante volte vince il campionato.</p>
+        <button class="btn secondario piccolo" data-azione="salva-punti">Aggiorna con questi punti</button>`;
+    }, 30);
   }
 
   function chipGiocatore(g) {
@@ -406,7 +505,7 @@
     const mio = calcola(lega);
     const avv = avversarioDiGiornata(lega);
     let html = `<section class="card">
-      <label for="l-avv" style="margin-top:0">Il tuo avversario in questa giornata</label>
+      <label for="l-avv" style="margin-top:0">Il tuo avversario in questa giornata${(() => { const p = partitaMia(lega, giornataLega(lega)); return p && !(lega.avversario && lega.avversario.giornata === dati.giornata) ? ` <small class="tenue">· dal calendario, ${p.casa ? "in casa" : "in trasferta"}</small>` : ""; })()}</label>
       <select id="l-avv" data-cambia="avversario">
         <option value="">Scegli…</option>
         ${avversari.map((s) => `<option ${avv && avv.nome === s.nome ? "selected" : ""}>${esc(s.nome)}</option>`).join("")}
@@ -414,6 +513,7 @@
     </section>`;
     if (avv && !mio.errore) html += cardSfida(lega, mio, avv);
 
+    html += cardCalendario(lega);
     html += `<section class="card"><h2>Scambi consigliati <small>in base alle rose</small></h2>
       <div id="scambi"><p class="tenue">Sto cercando gli scambi migliori…</p></div></section>`;
 
@@ -602,14 +702,14 @@
     return leghe.map((l) => ({
       n: l.nome, s: l.squadra || "", g: l.regole, r: compattaRosa(l.rosa),
       a: (l.avversari || []).map((x) => [x.nome, compattaRosa(x.rosa)]),
-      v: l.avversario || null, f: l.fissi || [], e: l.esclusi || [],
+      v: l.avversario || null, f: l.fissi || [], e: l.esclusi || [], c: l.calendario || null, p: l.punti || null,
     }));
   }
   function spacchetta(p) {
     return p.map((l, i) => ({
       id: "l" + Date.now().toString(36) + i, nome: l.n, squadra: l.s, regole: { ...regoleBase(), ...l.g },
       rosa: espandiRosa(l.r), avversari: (l.a || []).map(([nome, rosa]) => ({ nome, rosa: espandiRosa(rosa) })),
-      avversario: l.v, fissi: l.f || [], esclusi: l.e || [],
+      avversario: l.v, fissi: l.f || [], esclusi: l.e || [], calendario: l.c || null, punti: l.p || null,
     }));
   }
   const daBase64 = (s) => Uint8Array.from(atob(s.replace(/-/g, "+").replace(/_/g, "/")), (c) => c.charCodeAt(0));
@@ -681,6 +781,10 @@
       <li>Porto la media ai punti veri della tua lega (li metti in Regole): così conto anche bonus come il gol vittoria.</li>
       <li>Trasformo i punti in gol con le soglie della tua lega e conto vittorie, pareggi e sconfitte.</li>
       <li>È una stima: 60% vuol dire che su 10 partite così ne vinci circa 6.</li></ul>`],
+    ["📅", "Calendario e campionato", `<ul>
+      <li>Carichi il calendario (screenshot o testo): l'app sa da sola chi affronti ogni giornata, anche se il girone si ripete.</li>
+      <li><b>Prossime sfide</b>: la % di vittoria delle prossime 5 partite, con le rose di oggi (gli infortuni brevi contano a metà).</li>
+      <li><b>Come può finire</b>: gioco il resto del campionato 2.000 volte partendo dalla classifica di adesso. Vedi i punti attesi a fine stagione e quante volte ognuno vince.</li></ul>`],
     ["🔁", "Scambi", `<ul>
       <li>Provo tutti gli scambi 1 contro 1 e 2 contro 2 con gli stessi ruoli.</li>
       <li>Tengo quelli che ti fanno guadagnare punti e sono equilibrati come quotazione (al massimo 2 crediti di differenza), così l'altro può accettare.</li>
@@ -818,19 +922,37 @@
       document.head.appendChild(s);
     });
   }
+  async function testoDaImmagini(files, scrivi) {
+    scrivi(`<span class="gira"></span> Preparo la lettura… (la prima volta ci mette un po')`);
+    if (!window.Tesseract) await caricaScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
+    if (!lettore) lettore = await Tesseract.createWorker("ita");
+    let testo = "";
+    for (let i = 0; i < files.length; i++) {
+      scrivi(`<span class="gira"></span> Leggo lo screenshot ${files.length > 1 ? `${i + 1} di ${files.length}` : ""}…`);
+      const r = await lettore.recognize(files[i]);
+      testo += "\n" + r.data.text;
+    }
+    return testo;
+  }
+
+  async function calendarioDaScreenshot(files) {
+    const box = $("#c-stato-foto");
+    const scrivi = (t) => { if (box) { box.hidden = false; box.innerHTML = t; } };
+    try {
+      const testo = await testoDaImmagini(files, scrivi);
+      const area = $("#c-testo");
+      if (area) area.value = (area.value ? area.value + "\n" : "") + testo.trim();
+      scrivi("✅ Letto. Controlla i due campi sopra e tocca <b>Salva il calendario</b>.");
+    } catch (e) {
+      scrivi("Non riesco a leggere lo screenshot: controlla la connessione e riprova.");
+    }
+  }
+
   async function leggiScreenshot(files) {
     const box = $("#s-stato-foto");
     const scrivi = (t) => { if (box) { box.hidden = false; box.innerHTML = t; } };
     try {
-      scrivi(`<span class="gira"></span> Preparo la lettura… (la prima volta ci mette un po')`);
-      if (!window.Tesseract) await caricaScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
-      if (!lettore) lettore = await Tesseract.createWorker("ita");
-      let testo = "";
-      for (let i = 0; i < files.length; i++) {
-        scrivi(`<span class="gira"></span> Leggo lo screenshot ${files.length > 1 ? `${i + 1} di ${files.length}` : ""}…`);
-        const r = await lettore.recognize(files[i]);
-        testo += "\n" + r.data.text;
-      }
+      const testo = await testoDaImmagini(files, scrivi);
       if (!scelta) return;
       const lega = legaAttiva();
       const presi = giaPresi(lega, scelta.chi);
@@ -933,7 +1055,7 @@
     else if (vista === "lega") html = vistaLega(lega);
     else { aggiornaNovita(lega); html = vistaFormazione(lega); }
     $("#contenuto").innerHTML = html;
-    if (vista === "lega" && lega) riempiScambi(lega);
+    if (vista === "lega" && lega) { riempiScambi(lega); riempiCalendario(lega); }
     if (vista === "scegli") aggiornaScegli();
     document.body.classList.toggle("scegliendo", vista === "scegli");
   }
@@ -999,6 +1121,7 @@
 
   document.addEventListener("change", (e) => {
     if (e.target.id === "s-foto" && e.target.files.length) { leggiScreenshot([...e.target.files]); e.target.value = ""; return; }
+    if (e.target.id === "c-foto" && e.target.files.length) { calendarioDaScreenshot([...e.target.files]); e.target.value = ""; return; }
     if (e.target.dataset.cambia !== "avversario") return;
     const lega = legaAttiva();
     lega.avversario = e.target.value ? { giornata: dati.giornata, nome: e.target.value } : null;
@@ -1100,6 +1223,39 @@
         return avviso(`Salvate ${avversari.length} squadre avversarie${lega.squadra ? " · la tua è " + lega.squadra : ""}`);
       }
       case "nuova": vista = "nuova"; return disegna();
+      case "salva-calendario": {
+        const mia = $("#c-mia").value.trim();
+        const g = Number($("#c-giornata").value);
+        if (!mia) { $("#c-mia").focus(); return avviso("Scrivi il nome della tua squadra"); }
+        if (!g) { $("#c-giornata").focus(); return avviso("Scrivi che giornata è per la tua lega"); }
+        const nomi = [mia, ...(lega.avversari || []).map((s) => s.nome)];
+        const testo = $("#c-testo").value;
+        const offset = (dati.giornata || g) - g;
+        if (!testo.trim()) {
+          if (!lega.calendario) return avviso("Incolla il calendario o carica uno screenshot");
+          lega.squadra = mia; lega.calendario.offset = offset;
+          salva(); disegna(); return avviso("Salvato");
+        }
+        const giornate = M.leggiCalendario(testo, nomi, mia);
+        const mie = Object.values(giornate).filter((l) => l.some(([x, y]) => x === mia || y === mia)).length;
+        const punti = M.leggiClassifica(testo, nomi);
+        if (!Object.keys(giornate).length && !Object.keys(punti).length) {
+          return avviso((lega.avversari || []).length < 2 ? "Prima aggiungi le squadre della lega, poi il calendario" : "Non trovo partite: i nomi delle squadre devono essere come nella lega");
+        }
+        lega.squadra = mia;
+        if (Object.keys(giornate).length) lega.calendario = { offset, giornate };
+        else if (lega.calendario) lega.calendario.offset = offset;
+        else return avviso("Ho letto la classifica ma non il calendario");
+        if (Object.keys(punti).length) lega.punti = { ...(lega.punti || {}), ...punti };
+        if (lega.avversario && lega.avversario.giornata === dati.giornata) lega.avversario = null;
+        salva(); disegna();
+        return avviso(`Calendario salvato: ${Object.keys(giornate).length} giornate, ${mie} con la tua squadra${Object.keys(punti).length ? ` · classifica di ${Object.keys(punti).length} squadre` : ""}`);
+      }
+      case "salva-punti": {
+        lega.punti = {};
+        document.querySelectorAll("[data-punti]").forEach((i) => { if (i.value !== "") lega.punti[i.dataset.punti] = Number(i.value) || 0; });
+        salva(); disegna(); return avviso("Classifica aggiornata");
+      }
       case "modifica-rosa": return apriScegli(lega, "mia");
       case "nuovo-avv": return apriScegli(lega, "nuovo");
       case "scegli-fatto": return salvaScelta();

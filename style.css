@@ -521,3 +521,27 @@ body.scegliendo .contenuto { padding-bottom: 90px; }
 .stato-foto small { color: var(--tenue); }
 .gira { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--verde); border-right-color: transparent; border-radius: 50%; vertical-align: -2px; margin-right: 4px; animation: gira .8s linear infinite; }
 @keyframes gira { to { transform: rotate(360deg); } }
+
+/* ---------- Calendario ---------- */
+.sfida-riga { display: grid; grid-template-columns: 44px 1fr auto; gap: 10px; align-items: center; padding: 10px 0; border-top: 1px solid var(--bordo); }
+.sfida-riga:first-child { border-top: 0; }
+.sfida-riga .g { font-weight: 800; font-size: 17px; display: flex; flex-direction: column; line-height: 1.1; }
+.sfida-riga small { display: block; font-size: 12px; color: var(--tenue); font-weight: 500; }
+.sfida-riga .contro b { font-size: 15px; }
+.sfida-riga .vinci { text-align: center; min-width: 58px; border-radius: 10px; padding: 4px 6px; }
+.sfida-riga .vinci b { font-size: 17px; }
+.sfida-riga.facile .vinci { background: var(--verde-chiaro); color: var(--verde); }
+.sfida-riga.media .vinci { background: var(--giallo-chiaro); color: var(--giallo); }
+.sfida-riga.dura .vinci { background: var(--rosso-chiaro); color: var(--rosso); }
+.sfida-riga .vinci small { color: inherit; opacity: .8; }
+.proiezione { font-variant-numeric: tabular-nums; }
+.pr-testa, .pr-riga { display: grid; grid-template-columns: 20px 1fr 56px 40px 44px; gap: 8px; align-items: center; }
+.pr-testa { font-size: 12px; color: var(--tenue); font-weight: 600; padding-bottom: 4px; }
+.pr-testa span:nth-child(n+3), .pr-riga > :nth-child(n+3) { text-align: center; }
+.pr-riga { padding: 6px 0; border-top: 1px solid var(--bordo); font-size: 14px; }
+.pr-riga.mia { font-weight: 800; }
+.pr-riga.mia .pr-nome { color: var(--verde); }
+.pr-nome { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pr-riga input { padding: 6px 4px; font-size: 15px; text-align: center; width: 100%; background: var(--sfondo); border: 1px solid var(--bordo); border-radius: 8px; color: var(--testo); }
+.pr-primo { color: var(--tenue); }
+.sfida-riga .contro b { color: var(--testo); }

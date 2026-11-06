@@ -728,5 +728,143 @@
     return { trovati: [...presi.values()], dubbi: [...new Set(dubbi)] };
   }
 
-  window.Motore = { trovaNelTesto, simula, antiAvversario, mercato, novita, fotografa, leggiLega, scambi, classificaLega, consiglia, scadenza, leggiRosa, arricchisci, norm, chiave, RUOLI, FUORI };
+
+  // ---------- Calendario della lega ----------
+  // Va bene: la pagina calendario copiata (titoli "1ª giornata" e righe "Squadra A - Squadra B",
+  // anche con le due squadre su righe separate o il testo letto da uno screenshot)
+  // oppure solo le tue partite: "9 | Rotonda di Pastena (C)".
+  function trovaSquadre(riga, nomi) {
+    const n = norm(riga);
+    const parole = n.split(" ").filter(Boolean);
+    const out = [];
+    for (const nome of nomi) {
+      const k = norm(nome);
+      if (!k) continue;
+      let pos = n.indexOf(k);
+      if (pos < 0) {
+        const tok = k.split(" ").filter((t) => t.length >= 3);
+        if (!tok.length || !tok.every((t) => parole.some((w) => w === t || (t.length >= 5 && quasiUguali(w, t))))) continue;
+        const lungo = tok.reduce((a, b) => (b.length > a.length ? b : a));
+        pos = parole.findIndex((w) => w === lungo || quasiUguali(w, lungo));
+        pos = pos < 0 ? 0 : parole.slice(0, pos).join(" ").length;
+      }
+      out.push({ nome, pos, lung: k.length });
+    }
+    // Se un nome è dentro un altro più lungo nello stesso punto ("Real" in "Real Forio"), tengo il lungo
+    return out
+      .filter((x) => !out.some((y) => y !== x && y.lung > x.lung && Math.abs(y.pos - x.pos) <= y.lung && norm(y.nome).includes(norm(x.nome))))
+      .sort((a, b) => a.pos - b.pos)
+      .map((x) => x.nome);
+  }
+
+  function leggiCalendario(testo, nomi, mia) {
+    const giornate = {};
+    const aggiungi = (g, casa, fuori) => {
+      if (!g || casa === fuori) return;
+      const lista = (giornate[g] = giornate[g] || []);
+      if (!lista.some(([a, b]) => a === casa || b === casa || a === fuori || b === fuori)) lista.push([casa, fuori]);
+    };
+    let attuale = 0;
+    let inAttesa = null;
+    for (const riga of String(testo).split(/\r?\n/)) {
+      if (!riga.trim()) continue;
+      const mTitolo = riga.match(/(\d{1,2})\s*[ªa°^]?\s*giornata/i) || riga.match(/giornata\s*n?[°.]?\s*(\d{1,2})/i);
+      if (mTitolo) { attuale = Number(mTitolo[1]); inAttesa = null; }
+      const squadre = trovaSquadre(riga, nomi);
+      if (!squadre.length) continue;
+      const numeri = (riga.replace(/\(\s*[CT]\s*\)/gi, "").match(/\b\d{1,2}\b/g) || []).map(Number);
+      if (squadre.length >= 2) {
+        for (let i = 0; i + 1 < squadre.length; i += 2) aggiungi(attuale, squadre[i], squadre[i + 1]);
+        inAttesa = null;
+      } else if (mia && squadre[0] !== mia && /\(\s*[CT]\s*\)|\bcasa\b|trasferta/i.test(riga)) {
+        // Riga con solo il tuo avversario: "9 | 11 | Rotonda di Pastena (C)"
+        const g = !mTitolo && /^\W*\d/.test(riga) ? numeri[0] : attuale;
+        const fuori = /\(\s*T\s*\)|trasferta/i.test(riga);
+        aggiungi(g, fuori ? squadre[0] : mia, fuori ? mia : squadre[0]);
+      } else if (inAttesa && inAttesa.g === attuale) {
+        aggiungi(attuale, inAttesa.nome, squadre[0]);
+        inAttesa = null;
+      } else {
+        inAttesa = { g: attuale, nome: squadre[0] };
+      }
+    }
+    return giornate;
+  }
+
+
+  // Classifica incollata insieme al calendario: "1 | Bocanapoli | 14 | 606" → Bocanapoli 14 punti
+  function leggiClassifica(testo, nomi) {
+    const punti = {};
+    let dentro = false;
+    for (const riga of String(testo).split(/\r?\n/)) {
+      if (/classifica/i.test(riga)) { dentro = true; continue; }
+      if (!dentro || /giornata/i.test(riga)) continue;
+      const squadre = trovaSquadre(riga, nomi);
+      if (squadre.length !== 1 || squadre[0] in punti) continue;
+      const k = norm(squadre[0]);
+      const n = norm(riga);
+      const dopo = n.slice(n.indexOf(k) >= 0 ? n.indexOf(k) + k.length : 0);
+      const m = dopo.match(/\b(\d{1,3})\b/);
+      if (m) punti[squadre[0]] = Number(m[1]);
+    }
+    return punti;
+  }
+
+  // Partite di una giornata di lega: se il calendario incollato è più corto, il girone si ripete
+  function partiteDi(calendario, g) {
+    const numeri = Object.keys(calendario || {}).map(Number).filter((n) => calendario[n].length);
+    if (!numeri.length) return [];
+    if (calendario[g] && calendario[g].length) return calendario[g];
+    const max = Math.max(...numeri);
+    if (g <= max) return [];
+    const ciclo = max - Math.min(...numeri) + 1;
+    const base = ((g - Math.min(...numeri)) % ciclo) + Math.min(...numeri);
+    return calendario[base] || [];
+  }
+
+  // Simulo il resto del campionato migliaia di volte: ogni squadra fa punti intorno alla sua media
+  // (±7 a giornata), li trasformo in gol con le soglie della lega e assegno 3, 1 o 0 punti.
+  function simulaStagione({ squadre, calendario, da, a, regole, volte = 2000 }) {
+    const rnd = casuale(777);
+    const nomi = squadre.map((s) => s.nome);
+    const idx = new Map(nomi.map((n, i) => [n, i]));
+    const totPunti = squadre.map(() => 0);
+    const primo = squadre.map(() => 0);
+    const podio = squadre.map(() => 0);
+    const ultimo = squadre.map(() => 0);
+    const posizioni = squadre.map(() => 0);
+    const giornate = [];
+    for (let g = da; g <= a; g++) giornate.push(partiteDi(calendario, g).filter(([x, y]) => idx.has(x) && idx.has(y)));
+    for (let k = 0; k < volte; k++) {
+      const punti = squadre.map((s) => Number(s.punti) || 0);
+      for (const note of giornate) {
+        const coppie = note.map(([x, y]) => [idx.get(x), idx.get(y)]);
+        const liberi = nomi.map((_, i) => i).filter((i) => !coppie.some(([x, y]) => x === i || y === i));
+        for (let i = liberi.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [liberi[i], liberi[j]] = [liberi[j], liberi[i]]; }
+        for (let i = 0; i + 1 < liberi.length; i += 2) coppie.push([liberi[i], liberi[i + 1]]);
+        for (const [x, y] of coppie) {
+          const gx = gol(squadre[x].media + normale(rnd) * 7, regole);
+          const gy = gol(squadre[y].media + normale(rnd) * 7, regole);
+          if (gx > gy) punti[x] += 3; else if (gx < gy) punti[y] += 3; else { punti[x]++; punti[y]++; }
+        }
+      }
+      const ordine = punti.map((p, i) => [p + rnd() * 0.5, i]).sort((u, v) => v[0] - u[0]).map(([, i]) => i);
+      ordine.forEach((i, pos) => {
+        posizioni[i] += pos + 1;
+        if (pos === 0) primo[i]++;
+        if (pos < 3) podio[i]++;
+        if (pos === ordine.length - 1) ultimo[i]++;
+      });
+      punti.forEach((p, i) => (totPunti[i] += p));
+    }
+    return squadre
+      .map((s, i) => ({
+        nome: s.nome, mia: !!s.mia, punti: Number(s.punti) || 0, media: s.media,
+        puntiFinali: totPunti[i] / volte, primo: primo[i] / volte, podio: podio[i] / volte,
+        ultimo: ultimo[i] / volte, posizione: posizioni[i] / volte,
+      }))
+      .sort((x, y) => x.posizione - y.posizione);
+  }
+
+  window.Motore = { leggiCalendario, leggiClassifica, partiteDi, simulaStagione, datiPerScambi, trovaNelTesto, simula, antiAvversario, mercato, novita, fotografa, leggiLega, scambi, classificaLega, consiglia, scadenza, leggiRosa, arricchisci, norm, chiave, RUOLI, FUORI };
 })();
