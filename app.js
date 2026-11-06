@@ -2,7 +2,7 @@
 (function () {
   const M = window.Motore;
   const CHIAVE = "fantaconsigli.v1";
-  const VERSIONE = 12; // da aumentare insieme a versione.json a ogni pubblicazione del codice
+  const VERSIONE = 13; // da aumentare insieme a versione.json a ogni pubblicazione del codice
   const MODULI_CLASSICI = ["3-4-3", "3-5-2", "4-3-3", "4-4-2", "4-5-1", "5-3-2", "5-4-1"];
   const MODULI_EXTRA = ["3-6-1", "5-2-3", "6-2-2", "6-3-1"];
   const NOMI_RUOLO = { P: "Portieri", D: "Difensori", C: "Centrocampisti", A: "Attaccanti" };
@@ -654,7 +654,8 @@
     <section class="card">
       <h2>📲 Su un altro telefono</h2>
       <p class="tenue piccolo">Copia un link con tutte le tue leghe (rose, regole, avversari) e mandatelo su WhatsApp o Messaggi. Aprilo sull'altro telefono e le ritrovi tutte.</p>
-      <button class="btn secondario" data-azione="esporta">Copia il link con le mie leghe</button>
+      <div class="azioni"><button class="btn secondario" data-azione="esporta">Copia il link con le mie leghe</button>
+      <button class="btn secondario" data-azione="importa-codice">Incolla un link</button></div>
     </section>`;
   }
 
@@ -1205,8 +1206,11 @@
         return;
       }
       case "importa-codice": {
-        const c = prompt("Incolla il link (o il codice) con le tue leghe:");
-        if (c) await importa(c);
+        const c = prompt("Incolla il link con le tue leghe:");
+        if (!c) return;
+        const m = c.match(/#collega=([a-z0-9/_-]+)/i);
+        if (m) { stato.fonte = { id: m[1], ultimo: "" }; salva(); return sincronizza(true); }
+        await importa(c);
         return;
       }
       case "salva-rose": {
