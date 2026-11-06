@@ -2,6 +2,7 @@
 (function () {
   const M = window.Motore;
   const CHIAVE = "fantaconsigli.v1";
+  const VERSIONE = 10; // da aumentare insieme a versione.json a ogni pubblicazione del codice
   const MODULI_CLASSICI = ["3-4-3", "3-5-2", "4-3-3", "4-4-2", "4-5-1", "5-3-2", "5-4-1"];
   const MODULI_EXTRA = ["3-6-1", "5-2-3", "6-2-2", "6-3-1"];
   const NOMI_RUOLO = { P: "Portieri", D: "Difensori", C: "Centrocampisti", A: "Attaccanti" };
@@ -804,7 +805,8 @@
     pannello.innerHTML = `<div class="maniglia" aria-hidden="true"></div>
       <h3 id="foglio-titolo" class="guida-titolo">Come funziona Fanta Consigli</h3>
       ${GUIDA.map(([icona, titolo, testo], i) => `<details class="guida" ${i === 0 ? "open" : ""}><summary><span>${icona}</span>${titolo}</summary><div>${testo}</div></details>`).join("")}
-      <button class="btn secondario piena" data-chiudi style="margin-top:12px">Chiudi</button>`;
+      <p class="tenue piccolo centro" style="margin-top:12px">Versione ${VERSIONE}</p>
+      <button class="btn secondario piena" data-chiudi>Chiudi</button>`;
     const f = $("#foglio");
     f.hidden = false;
     requestAnimationFrame(() => f.classList.add("aperto"));
@@ -1223,6 +1225,10 @@
         return avviso(`Salvate ${avversari.length} squadre avversarie${lega.squadra ? " · la tua è " + lega.squadra : ""}`);
       }
       case "nuova": vista = "nuova"; return disegna();
+      case "ricarica": {
+        try { const regs = await navigator.serviceWorker?.getRegistrations?.() || []; await Promise.all(regs.map((x) => x.update())); } catch (err) {}
+        return location.reload();
+      }
       case "salva-calendario": {
         const mia = $("#c-mia").value.trim();
         const g = Number($("#c-giornata").value);
@@ -1336,7 +1342,23 @@
     if (el) el.textContent = mancano(Number(el.dataset.scadenza) - Date.now());
   }, 30000);
 
+  // Se online c'è una versione più nuova, lo dico e la carico con un tocco
+  async function controllaVersione() {
+    try {
+      const r = await fetch("versione.json", { cache: "no-store" });
+      const v = (await r.json()).versione;
+      if (v > VERSIONE && !$("#nuova-versione")) {
+        const b = document.createElement("button");
+        b.id = "nuova-versione"; b.className = "nuova-versione"; b.dataset.azione = "ricarica";
+        b.innerHTML = "✨ C'è una nuova versione dell'app · <b>Aggiorna</b>";
+        document.body.appendChild(b);
+      }
+    } catch (e) {}
+  }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") controllaVersione(); });
+
   async function avvia() {
+    controllaVersione();
     disegna();
     try {
       const r = await fetch("data/giornata.json", { cache: "no-store" });

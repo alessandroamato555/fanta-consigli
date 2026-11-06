@@ -545,3 +545,8 @@ body.scegliendo .contenuto { padding-bottom: 90px; }
 .pr-riga input { padding: 6px 4px; font-size: 15px; text-align: center; width: 100%; background: var(--sfondo); border: 1px solid var(--bordo); border-radius: 8px; color: var(--testo); }
 .pr-primo { color: var(--tenue); }
 .sfida-riga .contro b { color: var(--testo); }
+.nuova-versione {
+  position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 20;
+  border: 0; border-radius: 999px; padding: 12px 18px; background: var(--testo); color: var(--carta);
+  font: inherit; font-size: 14px; box-shadow: 0 6px 24px rgba(0,0,0,.25); white-space: nowrap; max-width: calc(100% - 32px);
+}
