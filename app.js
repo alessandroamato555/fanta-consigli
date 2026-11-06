@@ -2,7 +2,7 @@
 (function () {
   const M = window.Motore;
   const CHIAVE = "fantaconsigli.v1";
-  const VERSIONE = 13; // da aumentare insieme a versione.json a ogni pubblicazione del codice
+  const VERSIONE = 14; // da aumentare insieme a versione.json a ogni pubblicazione del codice
   const MODULI_CLASSICI = ["3-4-3", "3-5-2", "4-3-3", "4-4-2", "4-5-1", "5-3-2", "5-4-1"];
   const MODULI_EXTRA = ["3-6-1", "5-2-3", "6-2-2", "6-3-1"];
   const NOMI_RUOLO = { P: "Portieri", D: "Difensori", C: "Centrocampisti", A: "Attaccanti" };
@@ -157,20 +157,64 @@
     return `<div class="campo"><div class="campo-segni" aria-hidden="true"><i class="meta"></i><i class="cerchio"></i><i class="area alto"></i><i class="area basso"></i></div>${righe}</div>`;
   }
 
+  // ---------- Aiuti: istruzioni brevi passo per passo ----------
+  const aiuto = (passi, titolo = "Come fare") =>
+    `<div class="aiuto"><b>💡 ${titolo}</b><ol>${passi.map((p) => `<li>${p}</li>`).join("")}</ol></div>`;
+
+  function inApp() {
+    return (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  }
+  function cardInstalla() {
+    let chiuso = false;
+    try { chiuso = localStorage.getItem("fc.installa.chiuso") === "1"; } catch (e) {}
+    if (inApp() || chiuso || !/iphone|ipad|android/i.test(navigator.userAgent)) return "";
+    const ios = /iphone|ipad/i.test(navigator.userAgent);
+    return `<section class="card installa">
+      <button class="x" data-azione="chiudi-installa" aria-label="Chiudi">×</button>
+      <b>📲 Mettila sul telefono come un'app</b>
+      <p class="piccolo">${ios
+        ? "Apri questa pagina con <b>Safari</b> → tocca <b>Condividi</b> (il quadrato con la freccia ⬆️) → <b>Aggiungi alla schermata Home</b>."
+        : "In <b>Chrome</b> tocca <b>⋮</b> in alto a destra → <b>Aggiungi a schermata Home</b> (o <b>Installa app</b>)."}</p>
+    </section>`;
+  }
+
+  // Cosa manca per usare tutta l'app, con il tasto per farlo
+  function cardPerIniziare(lega) {
+    if (lega.guidaChiusa) return "";
+    const passi = [
+      { fatto: lega.rosa.length >= 11, testo: "La tua rosa", come: "screenshot della rosa → l'app trova i giocatori", tasto: `<button class="btn piccolo" data-azione="modifica-rosa">Aggiungi</button>` },
+      { fatto: !!(lega.regoleViste || stato.fonte), testo: "Le regole della lega", come: "moduli, modificatori, soglie gol", tasto: `<button class="btn piccolo" data-vista="regole">Imposta</button>` },
+      { fatto: (lega.avversari || []).length > 0, testo: "Le squadre avversarie", come: "per sapere quanto spesso vinci e gli scambi", tasto: `<button class="btn piccolo" data-azione="nuovo-avv">Aggiungi</button>` },
+      { fatto: !!lega.calendario, testo: "Il calendario", come: "avversario automatico e come finisce il campionato",
+        tasto: (lega.avversari || []).length ? `<button class="btn piccolo" data-vista="lega">Aggiungi</button>` : `<small class="tenue">dopo le squadre</small>` },
+    ];
+    const fatti = passi.filter((p) => p.fatto).length;
+    if (fatti === passi.length) return "";
+    return `<section class="card per-iniziare">
+      <h2>🚀 Per iniziare <small>${fatti} di ${passi.length} fatti</small></h2>
+      ${passi.map((p) => `<div class="passo ${p.fatto ? "fatto" : ""}">
+        <span class="spunta" aria-hidden="true">${p.fatto ? "✓" : ""}</span>
+        <span><b>${p.testo}</b><small>${p.come}</small></span>
+        ${p.fatto ? "" : p.tasto}
+      </div>`).join("")}
+      <button class="link piccolo" data-azione="chiudi-guida">Nascondi</button>
+    </section>`;
+  }
+
   // ---------- Viste ----------
   function vistaBenvenuto() {
-    return `<section class="benvenuto">
+    return `${cardInstalla()}<section class="benvenuto">
       <div class="benvenuto-campo" aria-hidden="true">
         <span class="maglia A alta"><span>90</span></span><span class="maglia C alta"><span>85</span></span><span class="maglia D media"><span>60</span></span>
       </div>
       <h1>La formazione giusta,<br>ogni giornata</h1>
       <p>Scegli i tuoi giocatori e le regole della tua lega: l'app ti dice chi schierare, in che ordine mettere la panchina e chi lasciare fuori.</p>
-      <ol class="passi">
-        <li><span><b>Aggiungi la lega</b> e tocca i tuoi giocatori</span></li>
-        <li><span><b>Imposta le regole</b>: moduli e modificatori</span></li>
-        <li><span><b>Guarda la formazione</b> e mettila su fantacalcio.it</span></li>
-      </ol>
       <button class="btn grande" data-azione="nuova">Aggiungi la tua lega</button>
+      <ol class="passi">
+        <li><span><b>Aggiungi la lega</b>: nome e screenshot della tua rosa</span></li>
+        <li><span><b>Imposta le regole</b>: 2 minuti, le copi da fantacalcio.it</span></li>
+        <li><span><b>Ogni giornata apri l'app</b>: la formazione è pronta, la copi su fantacalcio.it</span></li>
+      </ol>
       <p class="tenue piccolo">Funziona per qualsiasi lega Classic. I tuoi dati restano su questo telefono.</p>
       <button class="link" data-azione="importa-codice">Hai già le leghe su un altro telefono? Incolla il link</button>
     </section>
@@ -193,7 +237,7 @@
       <h2>Nuova lega</h2>
       <label for="n-nome">Nome della lega</label>
       <input id="n-nome" type="text" placeholder="Es. Lega del bar" autocomplete="off">
-      <p class="tenue piccolo">Poi carichi lo <b>screenshot della tua rosa</b> (dall'app di fantacalcio.it) e l'app riconosce i giocatori da sola. Chi manca lo cerchi e lo tocchi.</p>
+      ${aiuto(["Scrivi il nome della lega (quello che vuoi).", "Tocca <b>Avanti</b>.", "Nella pagina dopo carichi lo <b>screenshot della tua rosa</b>: i giocatori si aggiungono da soli."])}
       <div class="azioni">
         <button class="btn" data-azione="crea">Avanti: scegli i giocatori</button>
         ${stato.leghe.length ? `<button class="btn secondario" data-azione="annulla">Annulla</button>` : ""}
@@ -203,11 +247,11 @@
 
   function vistaFormazione(lega) {
     if (!lega.rosa.length) {
-      return `<section class="card vuoto"><p>La rosa è vuota.</p><button class="btn" data-vista="rosa">Aggiungi i giocatori</button></section>`;
+      return `${cardInstalla()}${cardPerIniziare(lega)}`;
     }
     const r = calcola(lega);
     const sc = M.scadenza(dati, lega.regole.timeout);
-    let html = "";
+    let html = cardInstalla() + cardPerIniziare(lega);
 
     if (sc) {
       const ms = sc - Date.now();
@@ -367,7 +411,13 @@
 
   function formCalendario(lega, aperto) {
     const g = lega.calendario ? giornataLega(lega) : "";
-    return `<label for="c-mia">Come si chiama la tua squadra nella lega</label>
+    return `${aiuto([
+        "Su fantacalcio.it apri <b>Calendario</b> e fai gli screenshot delle giornate (basta il primo giro).",
+        "Se vuoi, fai anche lo screenshot della <b>Classifica</b>.",
+        "Qui sotto scrivi il nome della tua squadra e che giornata è per la tua lega.",
+        "Tocca <b>📷 Screenshot</b>, scegli le foto e poi <b>Salva il calendario</b>.",
+      ])}
+      <label for="c-mia">Come si chiama la tua squadra nella lega</label>
       <input id="c-mia" type="text" value="${esc(lega.squadra || "")}" placeholder="Es. Birkenstoke City" autocomplete="off">
       <label for="c-giornata">Questa giornata (${dati.giornata || "?"}ª di Serie A) per la tua lega è la…</label>
       <input id="c-giornata" type="number" min="1" max="38" inputmode="numeric" value="${g}" placeholder="Es. 9">
@@ -497,8 +547,12 @@
       return `<section class="card">
         <h2>Le squadre della tua lega</h2>
         <p class="tenue">Aggiungi le squadre dei tuoi amici: l'app studia il tuo avversario di ogni giornata, ti dice chi è più forte e ti consiglia gli scambi.</p>
+        ${aiuto([
+          "Su fantacalcio.it apri <b>Lega → Rose</b> e fai lo screenshot della rosa di un avversario.",
+          "Qui tocca <b>+ Aggiungi una squadra</b>, scrivi il nome e carica lo screenshot.",
+          "Tocca <b>Salva</b> e ripeti per ogni squadra (circa 1 minuto l'una).",
+        ])}
         <button class="btn piena" data-azione="nuovo-avv">+ Aggiungi una squadra</button>
-        <p class="tenue piccolo">Scrivi il nome della squadra e carica lo <b>📷 screenshot</b> della sua rosa: i giocatori si aggiungono da soli. Chi manca lo cerchi e lo tocchi.</p>
       </section>
       ${boxIncollaLega("Hai già le rose scritte? Incollale")}`;
     }
@@ -604,7 +658,13 @@
     const r = lega.regole;
     const casella = (m) => `<label class="opzione-modulo"><input type="checkbox" data-modulo="${m}" ${r.moduli.includes(m) ? "checked" : ""}><span>${m}</span></label>`;
     const opz = (k, titolo, spiega) => `<label class="interruttore"><span>${titolo}<small>${spiega}</small></span><input type="checkbox" role="switch" data-regola="${k}" ${r[k] ? "checked" : ""}></label>`;
-    return `<section class="card">
+    return `${lega.regoleViste ? "" : `<section class="card">${aiuto([
+        "Su fantacalcio.it apri la tua lega → <b>Impostazioni</b> o <b>Regolamento</b>.",
+        "Qui sotto attiva gli stessi moduli e modificatori.",
+        "Se non sai qualcosa lascialo com'è: va bene lo stesso.",
+        "Tocca <b>Salva regole</b> in fondo.",
+      ], "Le regole in 2 minuti")}</section>`}
+    <section class="card">
       <h2>Lega</h2>
       <label for="g-nome">Nome della lega</label>
       <input id="g-nome" type="text" value="${esc(lega.nome)}">
@@ -861,7 +921,7 @@
         ${avv ? `<input id="s-nome" type="text" placeholder="Nome della squadra (es. Bocanapoli)" value="${esc(scelta.nome)}" autocomplete="off">` : ""}
         <div class="ruoli-tab" id="s-ruoli" role="tablist"></div>
         <div class="cerca-riga">
-          <input id="s-cerca" type="search" placeholder="Cerca un nome o una squadra…" autocomplete="off" enterkeyhint="search" value="${esc(scelta.cerca)}">
+          <input id="s-cerca" type="search" placeholder="Cerca giocatore…" autocomplete="off" enterkeyhint="search" value="${esc(scelta.cerca)}">
           <label class="btn secondario foto" title="Leggi i giocatori da uno screenshot">📷<span>Screenshot</span>
             <input id="s-foto" type="file" accept="image/*" multiple hidden></label>
         </div>
@@ -894,7 +954,14 @@
     const visti = scelta.cerca ? scelta.sel : scelta.sel.filter((g) => g.ruolo === scelta.ruolo);
     $("#s-scelti").innerHTML = visti.length
       ? visti.map((g) => `<button class="chip-gioc togli" data-togli-scelto="${esc(M.chiave(g))}" aria-label="Togli ${esc(g.nome)}"><span class="ruolo ${g.ruolo}">${g.ruolo}</span>${esc(g.nome)} <small>×</small></button>`).join("")
-      : `<p class="tenue piccolo">Tocca i giocatori qui sotto per aggiungerli.</p>`;
+      : scelta.sel.length ? `<p class="tenue piccolo">Tocca i giocatori qui sotto per aggiungerli.</p>` : "";
+    const guida = scelta.sel.length || scelta.cerca ? "" : aiuto([
+          ...(scelta.chi !== "mia" ? ["Scrivi in alto il <b>nome della squadra</b>."] : []),
+          "Su fantacalcio.it apri la rosa e fai lo <b>screenshot</b> (due se è lunga).",
+          "Tocca <b>📷 Screenshot</b> e scegli le foto: i giocatori si aggiungono da soli.",
+          "Chi manca: scrivi il nome nella ricerca e toccalo. Chi è sbagliato: tocca la ×.",
+          "Tocca <b>Salva</b> in basso.",
+        ]);
 
     const presi = giaPresi(lega, scelta.chi);
     const scelti = new Set(scelta.sel.map(M.chiave));
@@ -906,7 +973,7 @@
     // Prima i liberi, poi quelli già in un'altra rosa (non si possono scegliere)
     lista = [...lista.filter((g) => !presi.has(M.chiave(g)) || scelti.has(M.chiave(g))), ...lista.filter((g) => presi.has(M.chiave(g)) && !scelti.has(M.chiave(g)))];
     const mostra = lista.slice(0, q ? 60 : 400);
-    $("#s-lista").innerHTML = mostra.length
+    $("#s-lista").innerHTML = guida + (mostra.length
       ? mostra.map((g) => {
           const k = M.chiave(g);
           const preso = presi.get(k);
@@ -916,7 +983,7 @@
             <span class="nome">${esc(g.nome)}<span class="dettaglio">${esc(g.squadra)}${preso !== undefined && !si ? (preso ? " · già di " + esc(preso) : " · è nella tua rosa") : ""}</span></span>
             ${g.quot ? `<span class="quot">${g.quot}</span>` : ""}<span class="spunta" aria-hidden="true">${si ? "✓" : "+"}</span></button>`;
         }).join("") + (lista.length > mostra.length ? `<p class="tenue piccolo centro">Scrivi qualche lettera per trovare gli altri</p>` : "")
-      : `<p class="tenue centro">Nessun giocatore trovato.<br><button class="link" data-azione="scegli-a-mano">Aggiungi "${esc(scelta.cerca)}" a mano</button></p>`;
+      : `<p class="tenue centro">Nessun giocatore trovato.<br><button class="link" data-azione="scegli-a-mano">Aggiungi "${esc(scelta.cerca)}" a mano</button></p>`);
   }
 
 
@@ -1234,6 +1301,8 @@
         return avviso(`Salvate ${avversari.length} squadre avversarie${lega.squadra ? " · la tua è " + lega.squadra : ""}`);
       }
       case "nuova": vista = "nuova"; return disegna();
+      case "chiudi-guida": lega.guidaChiusa = true; salva(); return disegna();
+      case "chiudi-installa": try { localStorage.setItem("fc.installa.chiuso", "1"); } catch (err) {} return disegna();
       case "ricarica": return ricarica();
       case "sincronizza": return sincronizza(true);
       case "scollega":
@@ -1325,7 +1394,8 @@
         r.sogliaGol = Number($("#g-soglia").value) || 66;
         r.passoGol = Number($("#g-passo").value) || 6;
         r.mediaLega = Number($("#g-media").value) || 72;
-        salva(); vista = "formazione"; disegna(); return avviso("Regole salvate");
+        lega.regoleViste = true;
+        salva(); vista = "formazione"; disegna(); window.scrollTo(0, 0); return avviso("Regole salvate");
       }
       case "elimina":
         if (!confirm(`Eliminare la lega "${lega.nome}" da questo telefono?`)) return;
