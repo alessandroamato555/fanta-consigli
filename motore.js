@@ -49,6 +49,14 @@
         const [gn, gs] = chiave.split("|");
         if (gs === s && gn.split(" ")[0] === cognome) return g;
       }
+      // Una parola lunga in comune nella stessa squadra ("Nico Paz" ↔ "Paz N.", "Mora C." ↔ "Mora")
+      const parole = n.split(" ").filter((p) => p.length >= 3);
+      const simili = [];
+      for (const [chiave, g] of indice.perChiave) {
+        const [gn, gs] = chiave.split("|");
+        if (gs === s && gn.split(" ").some((p) => parole.includes(p))) simili.push(g);
+      }
+      if (simili.length === 1) return simili[0];
     }
     return null;
   }
@@ -263,52 +271,109 @@
   }
 
   // ---------- Lettura delle rose incollate ----------
-  // Va bene: copia da fantacalcio.it, tabelle, elenchi "Nome (Squadra) 13/48/16",
-  // righe con più giocatori separati da " · ", e il numero dopo la squadra come quotazione.
-  function preparaLettore(squadre) {
+  // Va bene: copia da fantacalcio.it, tabelle ed Excel, elenchi "Nome (Squadra) 13/48/16",
+  // squadre scritte per intero o in sigla (ATA, NAP…), righe con più giocatori separati da " · ",
+  // e anche giocatori senza squadra se li riconosco dal nome.
+  const escRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  function preparaLettore(squadre, dati) {
     const nomiSquadre = [...(squadre || [])].sort((a, b) => b.length - a.length);
     const reSquadra = nomiSquadre.length
-      ? new RegExp("(^|[^A-Za-zÀ-ÿ])(" + nomiSquadre.map((s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")(?![A-Za-zÀ-ÿ])", "i")
+      ? new RegExp("(^|[^A-Za-zÀ-ÿ])(" + nomiSquadre.map(escRe).join("|") + ")(?![A-Za-zÀ-ÿ])", "i")
       : null;
-    return { nomiSquadre, reSquadra };
+    // Sigle a 3 lettere maiuscole: ATA, BOL, NAP… (solo maiuscole, così non prendo "Romano" per Roma)
+    const sigle = new Map();
+    for (const s of nomiSquadre) sigle.set(norm(s).replace(/\s/g, "").slice(0, 3).toUpperCase(), s);
+    if (sigle.has("HEL")) sigle.set("VER", sigle.get("HEL"));
+    const reSigla = sigle.size ? new RegExp("(^|[^A-Za-zÀ-ÿ])(" + [...sigle.keys()].join("|") + ")(?![A-Za-zÀ-ÿ])") : null;
+    const indice = dati && dati.giocatori ? indicizza(dati) : null;
+    return { nomiSquadre, reSquadra, sigle, reSigla, indice };
   }
   const SEZIONI = [[/portier/i, "P"], [/difensor/i, "D"], [/centrocamp/i, "C"], [/attacc/i, "A"]];
   const RE_RUOLO = /^\s*(?:[-*•]\s*)?(?:\*\*)?(P|D|C|A|Por|Dif|Cen|Att)(?:\*\*)?(?:[\s\t.:\-|]+)/i;
-  const MAPPA_RUOLO = { p: "P", por: "P", d: "D", dif: "D", c: "C", cen: "C", a: "A", att: "A" };
+  const RE_CELLA_RUOLO = /^(P|D|C|A|Por|Dif|Cen|Att|Portiere|Difensore|Centrocampista|Attaccante)$/i;
+  const MAPPA_RUOLO = { p: "P", por: "P", portiere: "P", d: "D", dif: "D", difensore: "D", c: "C", cen: "C", centrocampista: "C", a: "A", att: "A", attaccante: "A" };
+  const NON_SQUADRA = /^(note|totale|formato|aggiornat|colonne|rose\b|rosa\b|crediti|ruolo|calciatore|giocatore|squadra\b|costo|quotaz|prezzo|allenatore|presidente|lega\b|classifica|nome\b)/i;
 
   function pulisciRiga(riga) {
     if (/\|/.test(riga)) {
       const celle = riga.split("|").map((c) => c.trim()).filter(Boolean);
-      if (celle.some((c) => /^giocatore$/i.test(c))) return "";
+      if (celle.some((c) => /^(giocatore|calciatore)$/i.test(c))) return "";
+      return celle.join("\t");
+    }
+    // Celle di Excel/tabella: se il ruolo non è nella prima cella lo porto davanti
+    if (/\t/.test(riga)) {
+      const celle = riga.split("\t").map((c) => c.trim()).filter(Boolean);
+      if (celle.some((c) => /^(calciatore|giocatore|nome)$/i.test(c))) return "";
+      const i = celle.findIndex((c) => RE_CELLA_RUOLO.test(c));
+      if (i > 0) celle.unshift(celle.splice(i, 1)[0]);
       return celle.join("\t");
     }
     return riga;
   }
 
+  function pulisciNome(s) {
+    return s
+      .replace(/[#*_`]/g, "")
+      .replace(/^[\s\-•\d.]+/, "")
+      .replace(/[\s(\t,–—\-\d./]+$/, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   // Un pezzo di riga con un solo giocatore → {nome, squadra, ruolo, quot} o null
   function leggiPezzo(pezzo, ruoloAttuale, lettore) {
-    const m = lettore.reSquadra ? pezzo.match(lettore.reSquadra) : null;
-    if (!m) return { ruolo: ruoloAttuale, giocatore: null };
     let ruolo = ruoloAttuale;
     let resto = pezzo;
     const mRuolo = pezzo.match(RE_RUOLO);
     if (mRuolo) {
       ruolo = MAPPA_RUOLO[mRuolo[1].toLowerCase()];
       resto = pezzo.slice(mRuolo[0].length);
+    } else {
+      const prima = pezzo.split("\t")[0].trim();
+      if (RE_CELLA_RUOLO.test(prima)) { ruolo = MAPPA_RUOLO[prima.toLowerCase()]; resto = pezzo.slice(pezzo.indexOf(prima) + prima.length); }
     }
-    const squadra = lettore.nomiSquadre.find((s) => s.toLowerCase() === m[2].toLowerCase()) || m[2];
-    const idx = resto.toLowerCase().indexOf(m[2].toLowerCase());
-    const nome = (idx >= 0 ? resto.slice(0, idx) : resto)
-      .replace(/[#*_`]/g, "")
-      .replace(/^[\s\-•\d.]+/, "")
-      .replace(/[\s(\t,–—-]+$/, "")
-      .trim();
-    const dopo = idx >= 0 ? resto.slice(idx + m[2].length) : "";
-    const mq = dopo.match(/^[\s)\t|]*(\d{1,3})(?!\d)/);
-    if (!nome || nome.length > 40 || !ruolo) return { ruolo, giocatore: null };
-    const g = { nome, squadra, ruolo };
-    if (mq) g.quot = Number(mq[1]);
-    return { ruolo, giocatore: g };
+
+    // 1) squadra scritta per intero, 2) in sigla
+    let squadra = null;
+    let m = lettore.reSquadra ? resto.match(lettore.reSquadra) : null;
+    if (m) squadra = lettore.nomiSquadre.find((s) => s.toLowerCase() === m[2].toLowerCase()) || m[2];
+    else if (lettore.reSigla && (m = resto.match(lettore.reSigla))) squadra = lettore.sigle.get(m[2]);
+
+    if (squadra) {
+      const inizio = m.index + m[1].length;
+      let nome = pulisciNome(resto.slice(0, inizio));
+      const dopo = resto.slice(inizio + m[2].length);
+      if (!nome) nome = pulisciNome(dopo.replace(/^[\s)\t|]*/, "").replace(/\t.*$/, ""));
+      const mq = dopo.match(/^[\s)\t|]*(\d{1,3})(?!\d)/);
+      if (nome && nome.length <= 40 && /[a-zà-ÿ]/i.test(nome)) {
+        if (!ruolo && lettore.indice) ruolo = trova(lettore.indice, nome, squadra)?.ruolo || null;
+        if (ruolo) {
+          const g = { nome, squadra, ruolo };
+          if (mq) g.quot = Number(mq[1]);
+          return { ruolo, giocatore: g };
+        }
+      }
+      return { ruolo: ruoloAttuale, giocatore: null };
+    }
+
+    // 3) Nessuna squadra: lo cerco per nome nei dati della giornata
+    const numeri = resto.match(/(\d{1,3})\s*$/);
+    const nome = pulisciNome(resto.replace(/\t/g, " "));
+    if (!nome || nome.length > 40) return { ruolo: ruoloAttuale, giocatore: null };
+    if (lettore.indice) {
+      const trovati = lettore.indice.perNome.get(norm(nome)) || [];
+      const giusti = trovati.filter((g) => !ruolo || g.ruolo === ruolo);
+      if (giusti.length === 1) {
+        const g = { nome: giusti[0].nome, squadra: giusti[0].squadra, ruolo: giusti[0].ruolo };
+        if (numeri) g.quot = Number(numeri[1]);
+        return { ruolo: g.ruolo, giocatore: g };
+      }
+    }
+    // 4) Ruolo davanti e un numero in fondo ("P Turati 3"): è un giocatore anche se non so la squadra
+    if (mRuolo && numeri && ruolo) {
+      return { ruolo, giocatore: { nome, squadra: "", ruolo, quot: Number(numeri[1]) } };
+    }
+    return { ruolo: ruoloAttuale, giocatore: null };
   }
 
   function senzaDoppioni(lista) {
@@ -321,13 +386,14 @@
     });
   }
 
-  function leggiRosa(testo, squadre) {
-    return leggiLega(testo, squadre, true)[0]?.rosa || [];
+  function leggiRosa(testo, squadre, dati) {
+    return leggiLega(testo, squadre, true, dati)[0]?.rosa || [];
   }
 
   // Legge più squadre: una riga senza giocatori (es. "## Bocanapoli — Diego") apre una nuova squadra.
-  function leggiLega(testo, squadre, unaSola) {
-    const lettore = preparaLettore(squadre);
+  // Se una squadra non ha ancora giocatori tengo il primo nome (il secondo di solito è l'allenatore).
+  function leggiLega(testo, squadre, unaSola, dati) {
+    const lettore = preparaLettore(squadre, dati);
     const squadreLette = [];
     let attuale = null;
     let ruolo = null;
@@ -335,26 +401,34 @@
       if (!riga.trim() || /^\s*\|?\s*-{3,}/.test(riga)) continue;
       riga = pulisciRiga(riga);
       if (!riga) continue;
-      const haGiocatore = lettore.reSquadra && lettore.reSquadra.test(riga);
-      if (!haGiocatore) {
-        const sez = SEZIONI.find(([re]) => re.test(riga));
-        if (sez && riga.length < 40) { ruolo = sez[1]; continue; }
-        if (!unaSola && riga.trim().length < 80 && !/^\s*(note|totale|formato|aggiornat|colonne)/i.test(riga.replace(/[#*\s]+/, ""))) {
-          const nome = riga.replace(/[#*_`]/g, "").split(/\s[—–-]\s|\s·\s|\(/)[0].trim();
-          if (nome && !/^[PDCA]$/i.test(nome)) {
-            attuale = { nome, rosa: [] };
-            squadreLette.push(attuale);
-            ruolo = null;
-          }
-        }
+      const trovati = [];
+      let r = ruolo;
+      for (const pezzo of riga.split(/\s·\s|;/)) {
+        const x = leggiPezzo(pezzo, r, lettore);
+        r = x.ruolo;
+        if (x.giocatore) trovati.push(x.giocatore);
+      }
+      if (trovati.length) {
+        ruolo = r;
+        if (!attuale) { attuale = { nome: "Squadra", rosa: [] }; squadreLette.push(attuale); }
+        attuale.rosa.push(...trovati);
         continue;
       }
-      if (!attuale) { attuale = { nome: "Squadra", rosa: [] }; squadreLette.push(attuale); }
-      for (const pezzo of riga.split(/\s·\s|;/)) {
-        const r = leggiPezzo(pezzo, ruolo, lettore);
-        ruolo = r.ruolo;
-        if (r.giocatore) attuale.rosa.push(r.giocatore);
+      const sez = SEZIONI.find(([re]) => re.test(riga));
+      if (sez && riga.length < 40) { ruolo = sez[1]; continue; }
+      if (unaSola) continue;
+      const pulita = riga.replace(/[#*_`\t]/g, " ").trim();
+      if (pulita.length >= 80 || NON_SQUADRA.test(pulita) || /^[\d\s.,€:/-]+$/.test(pulita)) continue;
+      const nome = pulita.split(/\s[—–-]\s|\s·\s|\(/)[0].replace(/\s+/g, " ").trim();
+      if (!nome || /^[PDCA]$/i.test(nome)) continue;
+      if (attuale && !attuale.rosa.length) {
+        // Un titolo "## Nome" vince sulla riga prima (es. il titolo della pagina)
+        if (/^\s*#/.test(riga)) attuale.nome = nome;
+        continue;
       }
+      attuale = { nome, rosa: [] };
+      squadreLette.push(attuale);
+      ruolo = null;
     }
     return squadreLette
       .map((s) => ({ ...s, rosa: senzaDoppioni(s.rosa) }))

@@ -462,3 +462,54 @@ input:focus, select:focus, textarea:focus, button:focus-visible { outline: 2px s
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* ---------- Scegli i giocatori ---------- */
+input[type="search"] {
+  width: 100%; font: inherit; font-size: 16px; color: var(--testo); background: var(--sfondo);
+  border: 1px solid var(--bordo); border-radius: 12px; padding: 12px 14px; margin-top: 10px; -webkit-appearance: none; appearance: none;
+}
+.scegli-testa { position: sticky; top: 0; z-index: 4; }
+.scegli-testa #s-nome { margin-bottom: 4px; }
+.ruoli-tab { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+.tab-ruolo {
+  border: 1px solid var(--bordo); background: var(--carta); color: var(--testo); border-radius: 12px;
+  padding: 6px 2px; display: flex; flex-direction: column; align-items: center; gap: 1px; min-width: 0;
+}
+.tab-ruolo span { font-size: 11px; color: var(--tenue); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab-ruolo b { font-size: 16px; font-variant-numeric: tabular-nums; }
+.tab-ruolo.P b { color: var(--P); } .tab-ruolo.D b { color: var(--D); } .tab-ruolo.C b { color: var(--C); } .tab-ruolo.A b { color: var(--A); }
+.tab-ruolo[aria-selected="true"] { border-color: var(--testo); box-shadow: inset 0 0 0 1px var(--testo); }
+.tab-ruolo.completo { background: var(--verde-chiaro); }
+.tab-ruolo.completo span::after { content: " ✓"; }
+.tab-ruolo.troppi { background: var(--giallo-chiaro); }
+.scelti { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; max-height: 68px; overflow-y: auto; }
+.scelti p { margin: 2px 0 0; }
+.chip-gioc.togli { border: 0; color: var(--testo); font: inherit; font-size: 14px; font-weight: 650; }
+.lista-scegli { padding-top: 4px; padding-bottom: 4px; }
+.riga-scegli {
+  width: 100%; border: 0; border-top: 1px solid var(--bordo); background: none; color: var(--testo); font: inherit; text-align: left;
+  display: grid; grid-template-columns: 28px 1fr auto 32px; gap: 10px; align-items: center; padding: 10px 0; min-height: 52px;
+}
+.riga-scegli:first-child { border-top: 0; }
+.riga-scegli .nome { font-weight: 650; min-width: 0; }
+.riga-scegli .dettaglio { display: block; font-weight: 500; font-size: 13px; color: var(--tenue); }
+.riga-scegli .quot { font-size: 13px; color: var(--tenue); font-variant-numeric: tabular-nums; }
+.riga-scegli .spunta {
+  width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center;
+  border: 1.5px solid var(--bordo); color: var(--tenue); font-size: 18px; font-weight: 700;
+}
+.riga-scegli.scelto .spunta { background: var(--verde); border-color: var(--verde); color: #fff; }
+.riga-scegli.scelto .nome { color: var(--verde); }
+.riga-scegli:disabled { opacity: .45; }
+.riga-scegli:disabled .spunta { visibility: hidden; }
+.centro { text-align: center; }
+.scegli-fondo {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  display: grid; grid-template-columns: auto 1fr; gap: 8px;
+  max-width: 720px; margin: 0 auto;
+  background: color-mix(in srgb, var(--carta) 92%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-top: 1px solid var(--bordo);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+}
+body.scegliendo .contenuto { padding-bottom: 90px; }

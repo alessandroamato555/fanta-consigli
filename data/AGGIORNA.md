@@ -30,3 +30,12 @@ Istruzioni per Claude (attività programmata). L'app legge solo questo file: se 
   - `prob`: probabilità di partire titolare, 0-100 (0 per infortunati, squalificati, fuori)
   - `fv`: fantavoto previsto **se gioca**, già pesato su forma recente, avversario, casa/trasferta, rigori e potenziale bonus. Riferimento: portiere 5.5-6.5, difensore 5.8-6.8, centrocampista 6-7, attaccante 6.2-7.8.
   - `nota`: facoltativa, massimo 8 parole, solo se utile (es. "Rigorista", "Torna dall'infortunio", "MOTM in Champions").
+
+## Lista di tutti i giocatori (`listone.json`)
+Serve all'app per far scegliere i giocatori toccandoli. Aggiornala **una volta al giorno** (alle 9):
+```bash
+curl -sL -A "Mozilla/5.0" -o "$SCRATCH/quot.html" https://www.fantacalcio.it/quotazioni-fantacalcio
+python3 -I ../strumenti/listone.py "$SCRATCH/quot.html" data/giornata.json "$(date +%F)" data/listone.json
+```
+(da dentro `app/`; `$SCRATCH` = una cartella temporanea). Deve stampare circa 600 giocatori e nessuna squadra non riconosciuta; se ne trova meno di 500 non salvare e lascia il file vecchio.
+Usa questi stessi nomi anche in `giornata.json`.

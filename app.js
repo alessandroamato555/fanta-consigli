@@ -163,9 +163,9 @@
         <span class="maglia A alta"><span>90</span></span><span class="maglia C alta"><span>85</span></span><span class="maglia D media"><span>60</span></span>
       </div>
       <h1>La formazione giusta,<br>ogni giornata</h1>
-      <p>Incolla la tua rosa e le regole della tua lega: l'app ti dice chi schierare, in che ordine mettere la panchina e chi lasciare fuori.</p>
+      <p>Scegli i tuoi giocatori e le regole della tua lega: l'app ti dice chi schierare, in che ordine mettere la panchina e chi lasciare fuori.</p>
       <ol class="passi">
-        <li><span><b>Aggiungi la lega</b> e incolla la rosa</span></li>
+        <li><span><b>Aggiungi la lega</b> e tocca i tuoi giocatori</span></li>
         <li><span><b>Imposta le regole</b>: moduli e modificatori</span></li>
         <li><span><b>Guarda la formazione</b> e mettila su fantacalcio.it</span></li>
       </ol>
@@ -190,11 +190,9 @@
       <h2>Nuova lega</h2>
       <label for="n-nome">Nome della lega</label>
       <input id="n-nome" type="text" placeholder="Es. Lega del bar" autocomplete="off">
-      <label for="n-rosa">La tua rosa</label>
-      <textarea id="n-rosa" placeholder="Una riga per giocatore: ruolo, nome, squadra&#10;P Maignan Milan&#10;D Dimarco Inter&#10;C Barella Inter&#10;A Krstovic Atalanta"></textarea>
-      <p class="tenue piccolo">Puoi copiarla dalla pagina della rosa su fantacalcio.it o scriverla a mano. Se ti dimentichi qualcuno lo aggiungi dopo.</p>
+      <p class="tenue piccolo">Poi scegli i tuoi giocatori dalla lista di tutta la Serie A: scrivi due lettere e tocchi.</p>
       <div class="azioni">
-        <button class="btn" data-azione="crea">Avanti</button>
+        <button class="btn" data-azione="crea">Avanti: scegli i giocatori</button>
         ${stato.leghe.length ? `<button class="btn secondario" data-azione="annulla">Annulla</button>` : ""}
       </div>
     </section>`;
@@ -294,15 +292,7 @@
     const r = calcola(lega);
     const lista = r.giocatori;
     let html = `<section class="card"><h2>${esc(lega.nome)} <small>${lega.rosa.length} giocatori</small></h2>
-      <div class="aggiungi-box">
-        <label for="a-nome">Aggiungi un giocatore</label>
-        <input id="a-nome" type="text" list="lista-giocatori" placeholder="Scrivi il nome…" autocomplete="off">
-        <div class="aggiungi-riga">
-          <select id="a-squadra" aria-label="Squadra">${squadre().map((s) => `<option>${esc(s)}</option>`).join("")}</select>
-          <select id="a-ruolo" aria-label="Ruolo"><option value="P">P</option><option value="D">D</option><option value="C" selected>C</option><option value="A">A</option></select>
-          <button class="btn piccolo" data-azione="aggiungi">Aggiungi</button>
-        </div>
-      </div>`;
+      <button class="btn piena" data-azione="modifica-rosa">✏️ Aggiungi o togli giocatori</button>`;
     for (const ruolo of M.RUOLI) {
       const delRuolo = lista.map((g, i) => ({ g, i })).filter((x) => x.g.ruolo === ruolo);
       if (!delRuolo.length) continue;
@@ -316,12 +306,12 @@
       }
     }
     html += `</section>
-      <section class="card">
-        <h2>Incolla di nuovo la rosa</h2>
-        <p class="tenue piccolo">Dopo il mercato o uno scambio: sostituisce tutta la rosa.</p>
+      <details class="card">
+        <summary>Hai la rosa scritta da qualche parte? <small class="tenue">Incollala</small></summary>
+        <p class="tenue piccolo">Una riga per giocatore, con la squadra: "P Maignan Milan". Sostituisce tutta la rosa.</p>
         <textarea id="r-incolla" placeholder="P Maignan Milan&#10;D Dimarco Inter&#10;..."></textarea>
         <div class="azioni" style="margin-top:8px"><button class="btn secondario" data-azione="sostituisci">Sostituisci la rosa</button></div>
-      </section>`;
+      </details>`;
     return html;
   }
 
@@ -405,12 +395,12 @@
     const avversari = lega.avversari || [];
     if (!avversari.length) {
       return `<section class="card">
-        <h2>Le rose della tua lega</h2>
-        <p class="tenue">Incolla le rose di tutte le squadre: così l'app studia il tuo avversario di ogni giornata, ti dice chi è più forte e ti consiglia gli scambi.</p>
-        <p class="tenue piccolo">Su fantacalcio.it vai in <b>Lega → Rose</b>, seleziona tutto e copia. Il nome di ogni squadra deve stare su una riga da solo, sopra i suoi giocatori. La tua squadra la riconosco e la salto.</p>
-        <textarea id="l-rose" placeholder="Bocanapoli&#10;P Carnesecchi Atalanta 12&#10;D Di Lorenzo Napoli 12&#10;...&#10;&#10;Diabolikus&#10;P Skorupski Bologna 10&#10;..."></textarea>
-        <div class="azioni" style="margin-top:8px"><button class="btn" data-azione="salva-rose">Salva le rose</button></div>
-      </section>`;
+        <h2>Le squadre della tua lega</h2>
+        <p class="tenue">Aggiungi le squadre dei tuoi amici: l'app studia il tuo avversario di ogni giornata, ti dice chi è più forte e ti consiglia gli scambi.</p>
+        <button class="btn piena" data-azione="nuovo-avv">+ Aggiungi una squadra</button>
+        <p class="tenue piccolo">Scrivi il nome della squadra e tocca i suoi giocatori. Chi è già in un'altra rosa non si può scegliere, così la lista si accorcia a ogni squadra.</p>
+      </section>
+      ${boxIncollaLega("Hai già le rose scritte? Incollale")}`;
     }
 
     const mio = calcola(lega);
@@ -435,13 +425,24 @@
         <span class="forza-barra"><i style="width:${Math.max(4, (c.previsti / max) * 100)}%"></i></span><b>${c.previsti.toFixed(1)}</b></div>`;
     });
     html += `</section>
-      <details class="card">
-        <summary>Aggiorna le rose della lega <small class="tenue">(${avversari.length} squadre)</small></summary>
-        <p class="tenue piccolo">Dopo il mercato o uno scambio incolla di nuovo tutte le rose.</p>
-        <textarea id="l-rose"></textarea>
-        <div class="azioni" style="margin-top:8px"><button class="btn secondario" data-azione="salva-rose">Sostituisci le rose</button></div>
-      </details>`;
+      <section class="card"><h2>Le squadre <small>${avversari.length === 1 ? "1 avversario" : avversari.length + " avversari"}</small></h2>
+        ${avversari.map((s, i) => `<div class="riga-rosa">
+          <button class="riga" data-modifica-avv="${i}"><span class="nome">${esc(s.nome)}<span class="dettaglio">${s.rosa.length} giocatori · tocca per modificare</span></span><span class="tenue">✏️</span></button>
+          <button class="x" data-togli-avv="${i}" aria-label="Togli ${esc(s.nome)}">×</button>
+        </div>`).join("")}
+        <button class="btn secondario piena" data-azione="nuovo-avv" style="margin-top:10px">+ Aggiungi una squadra</button>
+      </section>
+      ${boxIncollaLega("Incolla tutte le rose insieme")}`;
     return html;
+  }
+
+  function boxIncollaLega(titolo) {
+    return `<details class="card">
+        <summary>${titolo}</summary>
+        <p class="tenue piccolo">Il nome di ogni squadra su una riga da solo, sotto i suoi giocatori con la squadra di Serie A. Sostituisce tutte le squadre.</p>
+        <textarea id="l-rose" placeholder="Bocanapoli&#10;P Carnesecchi Atalanta&#10;D Di Lorenzo Napoli&#10;...&#10;&#10;Diabolikus&#10;P Skorupski Bologna&#10;..."></textarea>
+        <div class="azioni" style="margin-top:8px"><button class="btn secondario" data-azione="salva-rose">Salva le rose</button></div>
+      </details>`;
   }
 
   function riempiScambi(lega) {
@@ -711,6 +712,151 @@
     setTimeout(() => { f.hidden = true; }, 200);
   }
 
+  // ---------- Scegli i giocatori (tocca per aggiungere) ----------
+  // Lista di tutti i giocatori di Serie A: cerchi, tocchi, fatto. Vale per la tua rosa e per quelle degli avversari.
+  const LIMITI = { P: 3, D: 8, C: 8, A: 6 };
+  const CORTO_RUOLO = { P: "Portieri", D: "Difensori", C: "Centroc.", A: "Attaccanti" };
+  let listone = [];
+  let scelta = null; // { chi: "mia" | numero avversario | "nuovo", nome, sel: [], ruolo, cerca, nuovaLega }
+
+  function giocatoriTutti() {
+    return listone.length ? listone : (dati.giocatori || []).map((g) => ({ nome: g.nome, squadra: g.squadra, ruolo: g.ruolo, quot: 0 }));
+  }
+
+  // Chi è già in un'altra squadra della stessa lega
+  function giaPresi(lega, chi) {
+    const presi = new Map();
+    if (chi !== "mia") lega.rosa.forEach((g) => presi.set(M.chiave(g), "")); // "" = nella tua rosa
+    (lega.avversari || []).forEach((s, i) => { if (i !== chi) s.rosa.forEach((g) => presi.set(M.chiave(g), s.nome)); });
+    return presi;
+  }
+
+  function apriScegli(lega, chi, nuovaLega) {
+    const rosa = chi === "mia" ? lega.rosa : chi === "nuovo" ? [] : lega.avversari[chi].rosa;
+    const sel = rosa.map((g) => ({ ...g }));
+    const ruolo = M.RUOLI.find((r) => sel.filter((g) => g.ruolo === r).length < LIMITI[r]) || "P";
+    scelta = { chi, nome: chi === "mia" || chi === "nuovo" ? "" : lega.avversari[chi].nome, sel, ruolo, cerca: "", nuovaLega: !!nuovaLega };
+    vista = "scegli";
+    disegna();
+    window.scrollTo(0, 0);
+  }
+
+  function vistaScegli(lega) {
+    const avv = scelta.chi !== "mia";
+    const titolo = avv ? (scelta.chi === "nuovo" ? "Nuova squadra avversaria" : "Rosa di " + esc(scelta.nome)) : "La tua rosa";
+    return `<section class="card scegli-testa">
+        <h2>${titolo} <small id="s-totale"></small></h2>
+        ${avv ? `<input id="s-nome" type="text" placeholder="Nome della squadra (es. Bocanapoli)" value="${esc(scelta.nome)}" autocomplete="off">` : ""}
+        <div class="ruoli-tab" id="s-ruoli" role="tablist"></div>
+        <input id="s-cerca" type="search" placeholder="Cerca un nome o una squadra…" autocomplete="off" enterkeyhint="search" value="${esc(scelta.cerca)}">
+        <div id="s-scelti" class="scelti"></div>
+      </section>
+      <section class="card lista-scegli" id="s-lista"></section>
+      <div class="scegli-fondo">
+        <button class="btn secondario" data-azione="scegli-annulla">Annulla</button>
+        <button class="btn" data-azione="scegli-fatto" id="s-fatto">Salva</button>
+      </div>`;
+  }
+
+  function aggiornaScegli() {
+    const lega = legaAttiva();
+    if (!scelta || !lega || !$("#s-lista")) return;
+    const conta = (r) => scelta.sel.filter((g) => g.ruolo === r).length;
+    const totale = scelta.sel.length;
+    const pieno = Object.values(LIMITI).reduce((a, b) => a + b, 0);
+    $("#s-totale").textContent = `${totale}/${pieno}`;
+    $("#s-fatto").textContent = `Salva · ${totale} giocatori`;
+    $("#s-ruoli").innerHTML = M.RUOLI.map((r) => {
+      const c = conta(r);
+      const stato = c === LIMITI[r] ? "completo" : c > LIMITI[r] ? "troppi" : "";
+      return `<button role="tab" class="tab-ruolo ${r} ${stato}" data-scegli-ruolo="${r}" aria-selected="${!scelta.cerca && scelta.ruolo === r}">
+        <span>${CORTO_RUOLO[r]}</span><b>${c}/${LIMITI[r]}</b></button>`;
+    }).join("");
+
+    // I giocatori già scelti del ruolo che stai guardando: li tocchi per toglierli
+    const visti = scelta.cerca ? scelta.sel : scelta.sel.filter((g) => g.ruolo === scelta.ruolo);
+    $("#s-scelti").innerHTML = visti.length
+      ? visti.map((g) => `<button class="chip-gioc togli" data-togli-scelto="${esc(M.chiave(g))}" aria-label="Togli ${esc(g.nome)}"><span class="ruolo ${g.ruolo}">${g.ruolo}</span>${esc(g.nome)} <small>×</small></button>`).join("")
+      : `<p class="tenue piccolo">Tocca i giocatori qui sotto per aggiungerli.</p>`;
+
+    const presi = giaPresi(lega, scelta.chi);
+    const scelti = new Set(scelta.sel.map(M.chiave));
+    const q = M.norm(scelta.cerca);
+    let lista = giocatoriTutti();
+    lista = q
+      ? lista.filter((g) => M.norm(g.nome + " " + g.squadra).includes(q) || M.norm(g.squadra).startsWith(q))
+      : lista.filter((g) => g.ruolo === scelta.ruolo);
+    // Prima i liberi, poi quelli già in un'altra rosa (non si possono scegliere)
+    lista = [...lista.filter((g) => !presi.has(M.chiave(g)) || scelti.has(M.chiave(g))), ...lista.filter((g) => presi.has(M.chiave(g)) && !scelti.has(M.chiave(g)))];
+    const mostra = lista.slice(0, q ? 60 : 400);
+    $("#s-lista").innerHTML = mostra.length
+      ? mostra.map((g) => {
+          const k = M.chiave(g);
+          const preso = presi.get(k);
+          const si = scelti.has(k);
+          return `<button class="riga-scegli ${si ? "scelto" : ""}" data-tocca="${esc(k)}" ${preso !== undefined && !si ? "disabled" : ""} aria-pressed="${si}">
+            <span class="ruolo ${g.ruolo}">${g.ruolo}</span>
+            <span class="nome">${esc(g.nome)}<span class="dettaglio">${esc(g.squadra)}${preso !== undefined && !si ? (preso ? " · già di " + esc(preso) : " · è nella tua rosa") : ""}</span></span>
+            ${g.quot ? `<span class="quot">${g.quot}</span>` : ""}<span class="spunta" aria-hidden="true">${si ? "✓" : "+"}</span></button>`;
+        }).join("") + (lista.length > mostra.length ? `<p class="tenue piccolo centro">Scrivi qualche lettera per trovare gli altri</p>` : "")
+      : `<p class="tenue centro">Nessun giocatore trovato.<br><button class="link" data-azione="scegli-a-mano">Aggiungi "${esc(scelta.cerca)}" a mano</button></p>`;
+  }
+
+  function toccaGiocatore(k) {
+    const g = giocatoriTutti().find((x) => M.chiave(x) === k) || scelta.sel.find((x) => M.chiave(x) === k);
+    if (!g) return;
+    const i = scelta.sel.findIndex((x) => M.chiave(x) === k);
+    if (i >= 0) {
+      scelta.sel.splice(i, 1);
+    } else {
+      scelta.sel.push({ nome: g.nome, squadra: g.squadra, ruolo: g.ruolo, ...(g.quot ? { quot: g.quot } : {}) });
+      const n = scelta.sel.filter((x) => x.ruolo === g.ruolo).length;
+      if (scelta.cerca) {
+        // Dopo una ricerca torno alla lista del ruolo, pronta per il prossimo nome
+        scelta.cerca = "";
+        $("#s-cerca").value = "";
+        scelta.ruolo = g.ruolo;
+      }
+      if (n === LIMITI[g.ruolo]) {
+        const prossimo = M.RUOLI.find((r) => scelta.sel.filter((x) => x.ruolo === r).length < LIMITI[r]);
+        if (prossimo && prossimo !== g.ruolo) {
+          scelta.ruolo = prossimo;
+          avviso(`${NOMI_RUOLO[g.ruolo]} completi · ora i ${NOMI_RUOLO[prossimo].toLowerCase()}`);
+          $("#s-lista").scrollIntoView({ block: "start" });
+          window.scrollTo(0, 0);
+        } else if (!prossimo) avviso("Rosa completa: tocca Salva");
+      }
+    }
+    aggiornaScegli();
+  }
+
+  function salvaScelta() {
+    const lega = legaAttiva();
+    if (!scelta.sel.length) return avviso("Scegli almeno un giocatore");
+    if (scelta.chi === "mia") {
+      lega.rosa = scelta.sel;
+    } else {
+      const nome = ($("#s-nome").value || "").trim();
+      if (!nome) { $("#s-nome").focus(); return avviso("Scrivi il nome della squadra"); }
+      lega.avversari = lega.avversari || [];
+      if (scelta.chi === "nuovo") lega.avversari.push({ nome, rosa: scelta.sel });
+      else {
+        const vecchio = lega.avversari[scelta.chi].nome;
+        lega.avversari[scelta.chi] = { nome, rosa: scelta.sel };
+        if (lega.avversario && lega.avversario.nome === vecchio) lega.avversario.nome = nome;
+      }
+    }
+    const nuova = scelta.nuovaLega;
+    const quanti = scelta.sel.length;
+    const eraAvv = scelta.chi !== "mia";
+    scelta = null;
+    salva();
+    vista = nuova ? "regole" : eraAvv ? "lega" : "rosa";
+    disegna();
+    window.scrollTo(0, 0);
+    avviso(nuova ? `Rosa salvata (${quanti}). Ora imposta le regole` : `Salvata: ${quanti} giocatori`);
+  }
+
   // ---------- Disegno ----------
   function disegna() {
     const lega = legaAttiva();
@@ -724,12 +870,13 @@
       : "";
 
     const schede = [["formazione", "⚽", "Formazione"], ["rosa", "👥", "Rosa"], ["mercato", "🔄", "Mercato"], ["lega", "🏆", "Lega"], ["regole", "⚙️", "Regole"]];
-    $("#schede").innerHTML = lega && vista !== "nuova"
+    $("#schede").innerHTML = lega && vista !== "nuova" && vista !== "scegli"
       ? schede.map(([v, i, t]) => `<button class="scheda" data-vista="${v}" ${vista === v ? 'aria-current="page"' : ""}><span>${i}</span><span>${t}</span></button>`).join("")
       : "";
 
     let html;
     if (vista === "nuova") html = vistaNuova();
+    else if (vista === "scegli" && lega && scelta) html = vistaScegli(lega);
     else if (!lega) html = vistaBenvenuto();
     else if (vista === "rosa") html = vistaRosa(lega);
     else if (vista === "regole") html = vistaRegole(lega);
@@ -738,6 +885,8 @@
     else { aggiornaNovita(lega); html = vistaFormazione(lega); }
     $("#contenuto").innerHTML = html;
     if (vista === "lega" && lega) riempiScambi(lega);
+    if (vista === "scegli") aggiornaScegli();
+    document.body.classList.toggle("scegliendo", vista === "scegli");
   }
 
   function riempiSuggerimenti() {
@@ -786,6 +935,8 @@
 
   // Quando scegli un nome dai suggerimenti, compila squadra e ruolo
   document.addEventListener("input", (e) => {
+    if (e.target.id === "s-cerca" && scelta) { scelta.cerca = e.target.value; return aggiornaScegli(); }
+    if (e.target.id === "s-nome" && scelta) { scelta.nome = e.target.value; return; }
     if (e.target.id !== "a-nome") return;
     const parti = e.target.value.split(" · ");
     if (parti.length === 3) {
@@ -815,6 +966,20 @@
     const lega = legaAttiva();
 
     if (t.dataset.gioc) return apriScheda(t.dataset.gioc);
+    if (t.dataset.tocca && scelta) return toccaGiocatore(t.dataset.tocca);
+    if (t.dataset.togliScelto && scelta) return toccaGiocatore(t.dataset.togliScelto);
+    if (t.dataset.scegliRuolo && scelta) {
+      scelta.ruolo = t.dataset.scegliRuolo; scelta.cerca = ""; $("#s-cerca").value = "";
+      return aggiornaScegli();
+    }
+    if (t.dataset.modificaAvv && lega) return apriScegli(lega, Number(t.dataset.modificaAvv));
+    if (t.dataset.togliAvv && lega) {
+      const s = lega.avversari[Number(t.dataset.togliAvv)];
+      if (!confirm(`Togliere la squadra "${s.nome}"?`)) return;
+      lega.avversari.splice(Number(t.dataset.togliAvv), 1);
+      if (lega.avversario && lega.avversario.nome === s.nome) lega.avversario = null;
+      salva(); disegna(); return avviso(`${s.nome} tolta`);
+    }
     if (t.dataset.pref && lega) {
       const k = t.dataset.k;
       pref(lega);
@@ -865,7 +1030,7 @@
         return;
       }
       case "salva-rose": {
-        const lette = M.leggiLega($("#l-rose").value, squadre());
+        const lette = M.leggiLega($("#l-rose").value, squadre(), false, dati);
         if (!lette.length) return avviso("Non ho trovato squadre: metti il nome di ogni squadra su una riga da solo");
         const mie = new Set(lega.rosa.map(M.chiave));
         const avversari = [];
@@ -885,18 +1050,32 @@
         return avviso(`Salvate ${avversari.length} squadre avversarie${lega.squadra ? " · la tua è " + lega.squadra : ""}`);
       }
       case "nuova": vista = "nuova"; return disegna();
+      case "modifica-rosa": return apriScegli(lega, "mia");
+      case "nuovo-avv": return apriScegli(lega, "nuovo");
+      case "scegli-fatto": return salvaScelta();
+      case "scegli-annulla": {
+        const nuova = scelta && scelta.nuovaLega;
+        const eraAvv = scelta && scelta.chi !== "mia";
+        scelta = null;
+        vista = nuova ? "regole" : eraAvv ? "lega" : "rosa";
+        return disegna();
+      }
+      case "scegli-a-mano": {
+        const nome = scelta.cerca.trim();
+        const g = { nome, squadra: "", ruolo: scelta.ruolo };
+        scelta.sel.push(g);
+        scelta.cerca = ""; $("#s-cerca").value = "";
+        avviso(`${nome} aggiunto come ${RUOLO_SING[g.ruolo].toLowerCase()}`);
+        return aggiornaScegli();
+      }
       case "annulla": vista = "formazione"; return disegna();
       case "crea": {
         const nome = $("#n-nome").value.trim() || "La mia lega";
-        const rosa = M.leggiRosa($("#n-rosa").value, squadre());
-        if (!rosa.length) return avviso("Non ho trovato giocatori: controlla ruolo, nome e squadra");
-        const nuova = { id: "l" + Date.now().toString(36), nome, rosa, regole: regoleBase(), fissi: [], esclusi: [] };
+        const nuova = { id: "l" + Date.now().toString(36), nome, rosa: [], regole: regoleBase(), fissi: [], esclusi: [] };
         stato.leghe.push(nuova);
         stato.attiva = nuova.id;
         salva();
-        vista = "regole";
-        disegna();
-        return avviso(`Trovati ${rosa.length} giocatori. Ora imposta le regole`);
+        return apriScegli(nuova, "mia", true);
       }
       case "aggiungi": {
         const nome = $("#a-nome").value.trim();
@@ -905,7 +1084,7 @@
         salva(); disegna(); return avviso(`${nome} aggiunto`);
       }
       case "sostituisci": {
-        const rosa = M.leggiRosa($("#r-incolla").value, squadre());
+        const rosa = M.leggiRosa($("#r-incolla").value, squadre(), dati);
         if (!rosa.length) return avviso("Non ho trovato giocatori");
         lega.rosa = rosa;
         salva(); disegna(); return avviso(`Rosa aggiornata: ${rosa.length} giocatori`);
@@ -958,6 +1137,12 @@
       if (!r.ok) throw new Error(r.status);
       dati = await r.json();
       riempiSuggerimenti();
+      // Lista di tutti i giocatori di Serie A per sceglierli toccando
+      fetch("data/listone.json", { cache: "no-store" }).then((x) => x.ok ? x.json() : null).then((l) => {
+        if (!l) return;
+        listone = l.giocatori.map(([nome, squadra, ruolo, quot]) => ({ nome, squadra, ruolo, quot }));
+        if (vista === "scegli") aggiornaScegli();
+      }).catch(() => {});
     } catch (e) {
       avviso("Non riesco a caricare i dati della giornata");
     }
