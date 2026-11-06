@@ -513,3 +513,11 @@ input[type="search"] {
   padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
 }
 body.scegliendo .contenuto { padding-bottom: 90px; }
+.cerca-riga { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: end; }
+.btn.foto { margin-top: 10px; padding: 0 14px; height: 48px; display: inline-flex; align-items: center; gap: 6px; border-radius: 12px; cursor: pointer; font-size: 15px; }
+.btn.foto span { font-size: 14px; }
+@media (max-width: 330px) { .btn.foto span { display: none; } }
+.stato-foto { margin-top: 10px; padding: 10px 12px; border-radius: 12px; background: var(--verde-chiaro); font-size: 14px; line-height: 1.4; }
+.stato-foto small { color: var(--tenue); }
+.gira { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--verde); border-right-color: transparent; border-radius: 50%; vertical-align: -2px; margin-right: 4px; animation: gira .8s linear infinite; }
+@keyframes gira { to { transform: rotate(360deg); } }

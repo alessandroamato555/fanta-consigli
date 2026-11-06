@@ -190,7 +190,7 @@
       <h2>Nuova lega</h2>
       <label for="n-nome">Nome della lega</label>
       <input id="n-nome" type="text" placeholder="Es. Lega del bar" autocomplete="off">
-      <p class="tenue piccolo">Poi scegli i tuoi giocatori dalla lista di tutta la Serie A: scrivi due lettere e tocchi.</p>
+      <p class="tenue piccolo">Poi carichi lo <b>screenshot della tua rosa</b> (dall'app di fantacalcio.it) e l'app riconosce i giocatori da sola. Chi manca lo cerchi e lo tocchi.</p>
       <div class="azioni">
         <button class="btn" data-azione="crea">Avanti: scegli i giocatori</button>
         ${stato.leghe.length ? `<button class="btn secondario" data-azione="annulla">Annulla</button>` : ""}
@@ -398,7 +398,7 @@
         <h2>Le squadre della tua lega</h2>
         <p class="tenue">Aggiungi le squadre dei tuoi amici: l'app studia il tuo avversario di ogni giornata, ti dice chi è più forte e ti consiglia gli scambi.</p>
         <button class="btn piena" data-azione="nuovo-avv">+ Aggiungi una squadra</button>
-        <p class="tenue piccolo">Scrivi il nome della squadra e tocca i suoi giocatori. Chi è già in un'altra rosa non si può scegliere, così la lista si accorcia a ogni squadra.</p>
+        <p class="tenue piccolo">Scrivi il nome della squadra e carica lo <b>📷 screenshot</b> della sua rosa: i giocatori si aggiungono da soli. Chi manca lo cerchi e lo tocchi.</p>
       </section>
       ${boxIncollaLega("Hai già le rose scritte? Incollale")}`;
     }
@@ -748,7 +748,12 @@
         <h2>${titolo} <small id="s-totale"></small></h2>
         ${avv ? `<input id="s-nome" type="text" placeholder="Nome della squadra (es. Bocanapoli)" value="${esc(scelta.nome)}" autocomplete="off">` : ""}
         <div class="ruoli-tab" id="s-ruoli" role="tablist"></div>
-        <input id="s-cerca" type="search" placeholder="Cerca un nome o una squadra…" autocomplete="off" enterkeyhint="search" value="${esc(scelta.cerca)}">
+        <div class="cerca-riga">
+          <input id="s-cerca" type="search" placeholder="Cerca un nome o una squadra…" autocomplete="off" enterkeyhint="search" value="${esc(scelta.cerca)}">
+          <label class="btn secondario foto" title="Leggi i giocatori da uno screenshot">📷<span>Screenshot</span>
+            <input id="s-foto" type="file" accept="image/*" multiple hidden></label>
+        </div>
+        <div id="s-stato-foto" class="stato-foto" hidden></div>
         <div id="s-scelti" class="scelti"></div>
       </section>
       <section class="card lista-scegli" id="s-lista"></section>
@@ -800,6 +805,50 @@
             ${g.quot ? `<span class="quot">${g.quot}</span>` : ""}<span class="spunta" aria-hidden="true">${si ? "✓" : "+"}</span></button>`;
         }).join("") + (lista.length > mostra.length ? `<p class="tenue piccolo centro">Scrivi qualche lettera per trovare gli altri</p>` : "")
       : `<p class="tenue centro">Nessun giocatore trovato.<br><button class="link" data-azione="scegli-a-mano">Aggiungi "${esc(scelta.cerca)}" a mano</button></p>`;
+  }
+
+
+  // ---------- Leggere la rosa da uno screenshot ----------
+  // Il riconoscimento del testo gira nel telefono (Tesseract): le immagini non vanno da nessuna parte.
+  let lettore = null;
+  function caricaScript(src) {
+    return new Promise((ok, ko) => {
+      const s = document.createElement("script");
+      s.src = src; s.onload = ok; s.onerror = ko;
+      document.head.appendChild(s);
+    });
+  }
+  async function leggiScreenshot(files) {
+    const box = $("#s-stato-foto");
+    const scrivi = (t) => { if (box) { box.hidden = false; box.innerHTML = t; } };
+    try {
+      scrivi(`<span class="gira"></span> Preparo la lettura… (la prima volta ci mette un po')`);
+      if (!window.Tesseract) await caricaScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
+      if (!lettore) lettore = await Tesseract.createWorker("ita");
+      let testo = "";
+      for (let i = 0; i < files.length; i++) {
+        scrivi(`<span class="gira"></span> Leggo lo screenshot ${files.length > 1 ? `${i + 1} di ${files.length}` : ""}…`);
+        const r = await lettore.recognize(files[i]);
+        testo += "\n" + r.data.text;
+      }
+      if (!scelta) return;
+      const lega = legaAttiva();
+      const presi = giaPresi(lega, scelta.chi);
+      const giaScelti = new Set(scelta.sel.map(M.chiave));
+      const liberi = giocatoriTutti().filter((g) => !presi.has(M.chiave(g)));
+      const { trovati, dubbi } = M.trovaNelTesto(testo, liberi);
+      const nuovi = trovati.filter((g) => !giaScelti.has(M.chiave(g)));
+      nuovi.forEach((g) => scelta.sel.push({ nome: g.nome, squadra: g.squadra, ruolo: g.ruolo, ...(g.quot ? { quot: g.quot } : {}) }));
+      scelta.ruolo = M.RUOLI.find((r) => scelta.sel.filter((g) => g.ruolo === r).length < LIMITI[r]) || scelta.ruolo;
+      scelta.cerca = "";
+      aggiornaScegli();
+      const manca = Object.values(LIMITI).reduce((a, b) => a + b, 0) - scelta.sel.length;
+      scrivi(nuovi.length
+        ? `✅ Ho aggiunto <b>${nuovi.length}</b> giocatori.${manca > 0 ? ` Ne mancano ${manca}: cercali qui sopra o carica un altro screenshot.` : " Controlla e tocca Salva."}${dubbi.length ? `<br><small>Non sono sicuro di: ${dubbi.map(esc).join(", ")}. Cercali a mano.</small>` : ""}`
+        : `Non ho riconosciuto giocatori. Prova uno screenshot più nitido, con i nomi ben visibili.`);
+    } catch (e) {
+      scrivi("Non riesco a leggere lo screenshot: controlla la connessione e riprova.");
+    }
   }
 
   function toccaGiocatore(k) {
@@ -949,6 +998,7 @@
   });
 
   document.addEventListener("change", (e) => {
+    if (e.target.id === "s-foto" && e.target.files.length) { leggiScreenshot([...e.target.files]); e.target.value = ""; return; }
     if (e.target.dataset.cambia !== "avversario") return;
     const lega = legaAttiva();
     lega.avversario = e.target.value ? { giornata: dati.giornata, nome: e.target.value } : null;

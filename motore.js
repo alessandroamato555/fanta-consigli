@@ -666,5 +666,67 @@
       .sort((a, b) => b.previsti - a.previsti);
   }
 
-  window.Motore = { simula, antiAvversario, mercato, novita, fotografa, leggiLega, scambi, classificaLega, consiglia, scadenza, leggiRosa, arricchisci, norm, chiave, RUOLI, FUORI };
+
+  // ---------- Giocatori letti da uno screenshot ----------
+  // Il testo letto dall'immagine ha errori: cerco riga per riga i cognomi dei giocatori della lista
+  // (anche con una lettera sbagliata) e, se due giocatori hanno lo stesso cognome, uso squadra e iniziale.
+  function quasiUguali(a, b) {
+    if (a === b) return true;
+    if (Math.min(a.length, b.length) < 5 || Math.abs(a.length - b.length) > 1) return false;
+    let i = 0, j = 0, diff = 0;
+    while (i < a.length && j < b.length) {
+      if (a[i] === b[j]) { i++; j++; continue; }
+      if (++diff > 1) return false;
+      if (a.length > b.length) i++; else if (b.length > a.length) j++; else { i++; j++; }
+    }
+    return diff + (a.length - i) + (b.length - j) <= 1;
+  }
+  function trovaNelTesto(testo, lista) {
+    const prep = lista.map((g) => {
+      const parti = norm(g.nome).split(" ");
+      return {
+        g, cognome: parti.filter((p) => p.length >= 3), iniziali: parti.filter((p) => p.length < 3),
+        squadra: norm(g.squadra), sigla: norm(g.squadra).replace(/\s/g, "").slice(0, 3),
+      };
+    }).filter((x) => x.cognome.length);
+    const presi = new Map();
+    const dubbi = [];
+    for (const riga of String(testo).split(/\r?\n/)) {
+      const parole = norm(riga).split(" ").filter(Boolean);
+      if (!parole.length) continue;
+      const c = (p) => parole.some((w) => w === p || (p.length >= 5 && quasiUguali(w, p)));
+      let candidati = prep.filter((x) => x.cognome.every(c));
+      // Se sulla riga c'è un cognome scritto giusto, ignoro quelli simili ("Ramon" non è "Ramos")
+      const esatti = candidati.filter((x) => x.cognome.every((p) => parole.includes(p)));
+      if (esatti.length) candidati = esatti;
+      // Raggruppo per cognome: "Esposito F.P." e "Esposito Se." sono lo stesso gruppo
+      const gruppi = new Map();
+      for (const x of candidati) {
+        const k = x.cognome.join(" ");
+        if (!gruppi.has(k)) gruppi.set(k, []);
+        gruppi.get(k).push(x);
+      }
+      // Un cognome contenuto in uno più lungo trovato sulla stessa riga non conta ("Martinez" dentro "Lautaro Martinez")
+      const chiavi = [...gruppi.keys()];
+      for (const k of chiavi) {
+        if (chiavi.some((k2) => k2 !== k && k2.split(" ").length > k.split(" ").length && k.split(" ").every((p) => k2.split(" ").includes(p)))) gruppi.delete(k);
+      }
+      for (const [k, gruppo] of gruppi) {
+        let scelti = gruppo;
+        if (scelti.length > 1) {
+          const perSquadra = scelti.filter((x) => parole.includes(x.sigla) || norm(riga).includes(x.squadra));
+          if (perSquadra.length) scelti = perSquadra;
+        }
+        if (scelti.length > 1) {
+          const perIniziale = scelti.filter((x) => x.iniziali.length && x.iniziali.every((i) => parole.includes(i)));
+          if (perIniziale.length) scelti = perIniziale;
+        }
+        if (scelti.length === 1) presi.set(chiave(scelti[0].g), scelti[0].g);
+        else dubbi.push(k);
+      }
+    }
+    return { trovati: [...presi.values()], dubbi: [...new Set(dubbi)] };
+  }
+
+  window.Motore = { trovaNelTesto, simula, antiAvversario, mercato, novita, fotografa, leggiLega, scambi, classificaLega, consiglia, scadenza, leggiRosa, arricchisci, norm, chiave, RUOLI, FUORI };
 })();
