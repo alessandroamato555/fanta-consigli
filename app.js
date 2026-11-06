@@ -2,7 +2,7 @@
 (function () {
   const M = window.Motore;
   const CHIAVE = "fantaconsigli.v1";
-  const VERSIONE = 11; // da aumentare insieme a versione.json a ogni pubblicazione del codice
+  const VERSIONE = 12; // da aumentare insieme a versione.json a ogni pubblicazione del codice
   const MODULI_CLASSICI = ["3-4-3", "3-5-2", "4-3-3", "4-4-2", "4-5-1", "5-3-2", "5-4-1"];
   const MODULI_EXTRA = ["3-6-1", "5-2-3", "6-2-2", "6-3-1"];
   const NOMI_RUOLO = { P: "Portieri", D: "Difensori", C: "Centrocampisti", A: "Attaccanti" };
@@ -1386,12 +1386,11 @@
     const f = stato.fonte;
     if (!f || !f.id) return;
     try {
-      const r = await fetch(`https://api.github.com/gists/${encodeURIComponent(f.id)}`, { cache: "no-store" });
+      // Il file "raw" non ha limiti di richieste (l'API di GitHub ne permette solo 60 l'ora per rete)
+      const [utente, id] = f.id.includes("/") ? f.id.split("/") : ["alessandroamato555", f.id];
+      const r = await fetch(`https://gist.githubusercontent.com/${encodeURIComponent(utente)}/${encodeURIComponent(id)}/raw/fanta-leghe.json?t=${Date.now()}`, { cache: "no-store" });
       if (!r.ok) throw new Error(r.status);
-      const file = Object.values((await r.json()).files || {})[0];
-      if (!file) return;
-      const testo = file.truncated ? await (await fetch(file.raw_url, { cache: "no-store" })).text() : file.content;
-      const fonte = JSON.parse(testo);
+      const fonte = await r.json();
       if (!fonte.aggiornato || (f.ultimo && fonte.aggiornato <= f.ultimo)) return mostra && avviso("Le leghe sono già aggiornate");
       if (staiScrivendo()) return; // riprovo la prossima volta, per non cancellare quello che stai facendo
       for (const n of fonte.leghe || []) {
@@ -1437,7 +1436,7 @@
     disegna();
     // Link che collega il telefono alle leghe del Mac (basta aprirlo una volta)
     if (location.hash.startsWith("#collega=")) {
-      const id = location.hash.slice("#collega=".length).replace(/[^a-f0-9]/gi, "");
+      const id = location.hash.slice("#collega=".length).replace(/[^a-z0-9/_-]/gi, "");
       history.replaceState(null, "", location.pathname + location.search);
       stato.fonte = { id, ultimo: "" };
       salva();
