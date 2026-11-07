@@ -1,12 +1,10 @@
 {
- "giornata": 11,
- "aggiornato": "2026-11-06T19:10:00+01:00",
+ "giornata": 12,
+ "aggiornato": "2026-11-07T21:10:00+01:00",
  "fonti": [
+  "fantacalcio.it",
   "fantamaster.it",
-  "sosfanta.com",
-  "sport.sky.it",
-  "goal.com",
-  "eurosport.it"
+  "calciodangolo.com"
  ],
  "squadre": [
   "Atalanta",
@@ -32,54 +30,54 @@
  ],
  "partite": [
   {
-   "casa": "Venezia",
-   "trasferta": "Udinese",
-   "inizio": "2026-11-06T20:45:00+01:00"
+   "casa": "Como",
+   "trasferta": "Cagliari",
+   "inizio": "2026-11-21T15:00:00+01:00"
   },
   {
-   "casa": "Cagliari",
-   "trasferta": "Frosinone",
-   "inizio": "2026-11-07T15:00:00+01:00"
-  },
-  {
-   "casa": "Torino",
+   "casa": "Lazio",
    "trasferta": "Lecce",
-   "inizio": "2026-11-07T15:00:00+01:00"
+   "inizio": "2026-11-21T15:00:00+01:00"
   },
   {
    "casa": "Parma",
-   "trasferta": "Bologna",
-   "inizio": "2026-11-07T18:00:00+01:00"
-  },
-  {
-   "casa": "Roma",
-   "trasferta": "Sassuolo",
-   "inizio": "2026-11-07T20:45:00+01:00"
+   "trasferta": "Roma",
+   "inizio": "2026-11-21T18:00:00+01:00"
   },
   {
    "casa": "Napoli",
-   "trasferta": "Lazio",
-   "inizio": "2026-11-08T12:30:00+01:00"
+   "trasferta": "Torino",
+   "inizio": "2026-11-21T20:45:00+01:00"
   },
   {
-   "casa": "Genoa",
-   "trasferta": "Milan",
-   "inizio": "2026-11-08T15:00:00+01:00"
+   "casa": "Juventus",
+   "trasferta": "Venezia",
+   "inizio": "2026-11-22T12:30:00+01:00"
+  },
+  {
+   "casa": "Bologna",
+   "trasferta": "Udinese",
+   "inizio": "2026-11-22T15:00:00+01:00"
+  },
+  {
+   "casa": "Sassuolo",
+   "trasferta": "Genoa",
+   "inizio": "2026-11-22T15:00:00+01:00"
+  },
+  {
+   "casa": "Milan",
+   "trasferta": "Frosinone",
+   "inizio": "2026-11-22T18:00:00+01:00"
+  },
+  {
+   "casa": "Atalanta",
+   "trasferta": "Inter",
+   "inizio": "2026-11-22T20:45:00+01:00"
   },
   {
    "casa": "Monza",
-   "trasferta": "Atalanta",
-   "inizio": "2026-11-08T15:00:00+01:00"
-  },
-  {
-   "casa": "Inter",
-   "trasferta": "Como",
-   "inizio": "2026-11-08T18:00:00+01:00"
-  },
-  {
-   "casa": "Fiorentina",
-   "trasferta": "Juventus",
-   "inizio": "2026-11-08T20:45:00+01:00"
+   "trasferta": "Fiorentina",
+   "inizio": "2026-11-23T20:45:00+01:00"
   }
  ],
  "giocatori": [
@@ -127,10 +125,10 @@
    "nome": "Kristensen T.",
    "squadra": "Atalanta",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 30,
    "fv": 6.0,
-   "nota": "Flessore, salta"
+   "nota": "Risentimento flessore, recupera nella sosta"
   },
   {
    "nome": "Kossounou",
@@ -160,8 +158,8 @@
    "nome": "Bellanova",
    "squadra": "Atalanta",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 30,
    "fv": 6.2
   },
   {
@@ -218,17 +216,17 @@
    "nome": "Kessiè",
    "squadra": "Atalanta",
    "ruolo": "C",
-   "stato": "dubbio",
-   "prob": 10,
+   "stato": "panchina",
+   "prob": 20,
    "fv": 6.0,
-   "nota": "Verso il rientro, al massimo panchina"
+   "nota": "Recuperato, parte indietro"
   },
   {
    "nome": "Gaetano",
    "squadra": "Atalanta",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 20,
    "fv": 6.2
   },
   {
@@ -243,9 +241,10 @@
    "nome": "Raspadori",
    "squadra": "Atalanta",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.6
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 6.6,
+   "nota": "Distrazione lieve, recupera nella sosta"
   },
   {
    "nome": "Skorupski",
@@ -253,7 +252,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Casale",
@@ -261,7 +260,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 6.1
   },
   {
    "nome": "Theate",
@@ -269,7 +268,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 6.1
   },
   {
    "nome": "Vitik",
@@ -277,7 +276,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Darmian",
@@ -285,7 +284,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.0
+   "fv": 6.1
   },
   {
    "nome": "Zortea",
@@ -293,15 +292,16 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 6.3
+   "fv": 6.4
   },
   {
-   "nome": "Miranda",
+   "nome": "Miranda J.",
    "squadra": "Bologna",
    "ruolo": "D",
-   "stato": "titolare",
-   "prob": 85,
-   "fv": 6.2
+   "stato": "dubbio",
+   "prob": 50,
+   "fv": 6.3,
+   "nota": "Problema muscolare, da valutare"
   },
   {
    "nome": "Holm",
@@ -309,16 +309,16 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0,
-   "nota": "Stop di 4-6 mesi"
+   "fv": 6.1,
+   "nota": "Bicipite femorale, stop 4-6 mesi"
   },
   {
    "nome": "De Silvestri",
    "squadra": "Bologna",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 5.9
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 6.0
   },
   {
    "nome": "Pobega",
@@ -326,7 +326,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.2
+   "fv": 6.3
   },
   {
    "nome": "Ferguson",
@@ -334,7 +334,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.3
+   "fv": 6.4
   },
   {
    "nome": "Bernardeschi",
@@ -342,7 +342,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 6.6
+   "fv": 6.7
   },
   {
    "nome": "Odgaard",
@@ -350,7 +350,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 75,
-   "fv": 6.5
+   "fv": 6.6
   },
   {
    "nome": "Dovbyk",
@@ -358,7 +358,7 @@
    "ruolo": "A",
    "stato": "panchina",
    "prob": 25,
-   "fv": 6.5,
+   "fv": 6.6,
    "nota": "Odgaard favorito da falso nove"
   },
   {
@@ -367,7 +367,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
    "nome": "Mbangula",
@@ -375,7 +375,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.3
+   "fv": 6.4
   },
   {
    "nome": "Piccoli",
@@ -383,7 +383,7 @@
    "ruolo": "A",
    "stato": "panchina",
    "prob": 15,
-   "fv": 6.4,
+   "fv": 6.5,
    "nota": "Rientrato, parte dalla panchina"
   },
   {
@@ -392,15 +392,15 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
-   "nome": "Ze Pedro",
+   "nome": "Zè Pedro",
    "squadra": "Cagliari",
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Kofler",
@@ -408,7 +408,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Rodriguez Ju.",
@@ -416,15 +416,15 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Mina",
    "squadra": "Cagliari",
    "ruolo": "D",
    "stato": "dubbio",
-   "prob": 30,
-   "fv": 6.0
+   "prob": 40,
+   "fv": 5.8
   },
   {
    "nome": "Sugawara",
@@ -432,24 +432,24 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Obert",
    "squadra": "Cagliari",
    "ruolo": "D",
-   "stato": "squalificato",
-   "prob": 0,
-   "fv": 6.0,
-   "nota": "Squalificato"
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 5.8,
+   "nota": "Squalifica scontata, problema al ginocchio"
   },
   {
-   "nome": "Idrissi",
+   "nome": "Idrissi R.",
    "squadra": "Cagliari",
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Adopo",
@@ -457,7 +457,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Deiola",
@@ -465,16 +465,15 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.0,
-   "nota": "Diffidato"
+   "fv": 5.8
   },
   {
-   "nome": "Romano A.",
+   "nome": "Romano",
    "squadra": "Cagliari",
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Fazzini",
@@ -482,15 +481,16 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 6.2
+   "fv": 6.0
   },
   {
    "nome": "Winks",
    "squadra": "Cagliari",
    "ruolo": "C",
-   "stato": "ballottaggio",
-   "prob": 60,
-   "fv": 6.1
+   "stato": "dubbio",
+   "prob": 45,
+   "fv": 5.9,
+   "nota": "Problema alla schiena"
   },
   {
    "nome": "Massolin",
@@ -498,7 +498,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 30,
-   "fv": 6.1
+   "fv": 5.9
   },
   {
    "nome": "Maldini",
@@ -506,7 +506,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.6
+   "fv": 6.4
   },
   {
    "nome": "Mendy P.",
@@ -514,7 +514,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 6.4
+   "fv": 6.2
   },
   {
    "nome": "Kevin Carlos",
@@ -522,24 +522,24 @@
    "ruolo": "A",
    "stato": "panchina",
    "prob": 20,
-   "fv": 6.3,
+   "fv": 6.1,
    "nota": "Panchina, Mendy titolare"
   },
   {
    "nome": "Nzola",
    "squadra": "Cagliari",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.3
+   "stato": "dubbio",
+   "prob": 35,
+   "fv": 6.1
   },
   {
    "nome": "Fadera",
    "squadra": "Cagliari",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.2
+   "stato": "dubbio",
+   "prob": 25,
+   "fv": 6.0
   },
   {
    "nome": "Felici",
@@ -547,15 +547,15 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Gagliardini",
    "squadra": "Cagliari",
    "ruolo": "C",
    "stato": "dubbio",
-   "prob": 20,
-   "fv": 5.9
+   "prob": 35,
+   "fv": 5.8
   },
   {
    "nome": "Butez",
@@ -563,7 +563,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Couto",
@@ -571,15 +571,15 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.3
+   "fv": 6.5
   },
   {
-   "nome": "Smolcic",
+   "nome": "Smolcic I.",
    "squadra": "Como",
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 25,
-   "fv": 5.9
+   "fv": 6.1
   },
   {
    "nome": "Kempf",
@@ -587,7 +587,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Ramon",
@@ -595,7 +595,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Valle",
@@ -603,7 +603,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 6.2,
+   "fv": 6.4,
    "nota": "Ballottaggio con Kaiki"
   },
   {
@@ -612,7 +612,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Perrone",
@@ -620,7 +620,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.2
+   "fv": 6.4
   },
   {
    "nome": "Milla",
@@ -628,7 +628,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 75,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Da Cunha",
@@ -636,15 +636,15 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.4
+   "fv": 6.6
   },
   {
-   "nome": "Nico Paz",
+   "nome": "Paz N.",
    "squadra": "Como",
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 7.1
+   "fv": 7.2
   },
   {
    "nome": "Baturina",
@@ -652,7 +652,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.9,
+   "fv": 7.1,
    "nota": "Ballottaggio con Caqueret"
   },
   {
@@ -661,7 +661,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Douvikas",
@@ -669,17 +669,17 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 90,
-   "fv": 7.0,
+   "fv": 7.2,
    "nota": "Prima fascia attacco"
   },
   {
    "nome": "Diao",
    "squadra": "Como",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.5,
-   "nota": "Problema muscolare, salta"
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 6.7,
+   "nota": "Problema muscolare, da valutare dopo la sosta"
   },
   {
    "nome": "Kean",
@@ -687,15 +687,16 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.8
+   "fv": 7.0,
+   "nota": "Tibia, rientro a dicembre"
   },
   {
    "nome": "Addai",
    "squadra": "Como",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.2
+   "stato": "dubbio",
+   "prob": 25,
+   "fv": 6.4
   },
   {
    "nome": "Rodriguez Je.",
@@ -703,7 +704,7 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.3
+   "fv": 6.5
   },
   {
    "nome": "De Gea",
@@ -757,16 +758,16 @@
    "nome": "Pongracic",
    "squadra": "Fiorentina",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 35,
    "fv": 5.9
   },
   {
-   "nome": "Ranieri",
+   "nome": "Ranieri L.",
    "squadra": "Fiorentina",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 35,
    "fv": 5.9
   },
   {
@@ -813,10 +814,10 @@
    "nome": "Atta",
    "squadra": "Fiorentina",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 40,
    "fv": 6.1,
-   "nota": "Rientra dopo la sosta"
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Mastantuono",
@@ -857,15 +858,15 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 5.7
+   "fv": 5.5
   },
   {
-   "nome": "Oyono",
+   "nome": "Oyono A.",
    "squadra": "Frosinone",
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Tchato",
@@ -873,7 +874,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 35,
-   "fv": 5.8
+   "fv": 5.6
   },
   {
    "nome": "Calvani",
@@ -881,7 +882,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Cittadini",
@@ -889,7 +890,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Monterisi",
@@ -897,7 +898,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Bracaglia",
@@ -905,7 +906,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Calò",
@@ -913,7 +914,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 92,
-   "fv": 6.8,
+   "fv": 6.6,
    "nota": "Rigorista, in forma"
   },
   {
@@ -922,7 +923,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Cichella",
@@ -930,7 +931,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Schmid",
@@ -938,7 +939,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.3
+   "fv": 6.1
   },
   {
    "nome": "Ghedjemis",
@@ -946,7 +947,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.3
+   "fv": 6.1
   },
   {
    "nome": "Kvernadze",
@@ -954,7 +955,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.4
+   "fv": 6.2
   },
   {
    "nome": "Birligea",
@@ -962,7 +963,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.3
+   "fv": 6.1
   },
   {
    "nome": "Bobcek",
@@ -970,7 +971,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.2
+   "fv": 6.0
   },
   {
    "nome": "Raimondo",
@@ -978,7 +979,7 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.3
+   "fv": 6.1
   },
   {
    "nome": "Grillitsch",
@@ -986,7 +987,7 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Kone B.",
@@ -994,7 +995,7 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Bijlow",
@@ -1018,11 +1019,10 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0,
-   "nota": "Diffidato"
+   "fv": 6.0
   },
   {
-   "nome": "Vasquez J.",
+   "nome": "Vasquez",
    "squadra": "Genoa",
    "ruolo": "D",
    "stato": "titolare",
@@ -1035,7 +1035,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.0
   },
   {
    "nome": "Frendrup",
@@ -1062,7 +1062,7 @@
    "fv": 6.0
   },
   {
-   "nome": "Traorè H.",
+   "nome": "Traorè Hj.",
    "squadra": "Genoa",
    "ruolo": "C",
    "stato": "ballottaggio",
@@ -1083,7 +1083,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Ehizibue",
@@ -1099,10 +1099,10 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
-   "nome": "Vitinha",
+   "nome": "Vitinha O.",
    "squadra": "Genoa",
    "ruolo": "A",
    "stato": "panchina",
@@ -1173,8 +1173,7 @@
    "ruolo": "D",
    "stato": "panchina",
    "prob": 10,
-   "fv": 6.0,
-   "nota": "Rientra dall'infortunio, convocabile"
+   "fv": 6.0
   },
   {
    "nome": "Spence",
@@ -1240,26 +1239,25 @@
    "ruolo": "C",
    "stato": "panchina",
    "prob": 10,
-   "fv": 6.0,
-   "nota": "Recuperato per la panchina"
+   "fv": 6.0
   },
   {
    "nome": "Esposito F.P.",
    "squadra": "Inter",
    "ruolo": "A",
-   "stato": "titolare",
-   "prob": 65,
+   "stato": "ballottaggio",
+   "prob": 50,
    "fv": 7.0,
-   "nota": "In pole su Bonny"
+   "nota": "Dipende dal rientro di Lautaro"
   },
   {
    "nome": "Bonny",
    "squadra": "Inter",
    "ruolo": "A",
-   "stato": "ballottaggio",
-   "prob": 35,
+   "stato": "panchina",
+   "prob": 20,
    "fv": 6.8,
-   "nota": "Alternativa a Esposito"
+   "nota": "Chiuso se rientra Lautaro"
   },
   {
    "nome": "Thuram",
@@ -1273,16 +1271,17 @@
    "nome": "Martinez L.",
    "squadra": "Inter",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 7.3
+   "stato": "dubbio",
+   "prob": 50,
+   "fv": 7.3,
+   "nota": "Rientra dopo la sosta, da valutare"
   },
   {
    "nome": "Luis Henrique",
    "squadra": "Inter",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 20,
    "fv": 6.1
   },
   {
@@ -1291,7 +1290,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 92,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Kalulu",
@@ -1299,7 +1298,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Bremer",
@@ -1307,7 +1306,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.2
+   "fv": 6.4
   },
   {
    "nome": "Lucumì",
@@ -1315,7 +1314,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Cabal",
@@ -1323,15 +1322,15 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Celik",
    "squadra": "Juventus",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 35,
+   "fv": 6.2
   },
   {
    "nome": "Sarr P.",
@@ -1339,7 +1338,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Douglas Luiz",
@@ -1347,7 +1346,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 60,
-   "fv": 6.2
+   "fv": 6.4
   },
   {
    "nome": "Koopmeiners",
@@ -1355,7 +1354,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.5
+   "fv": 6.7
   },
   {
    "nome": "McKennie",
@@ -1363,7 +1362,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.2,
+   "fv": 6.4,
    "nota": "Recuperato"
   },
   {
@@ -1372,17 +1371,17 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0,
-   "nota": "Fuori fino a gennaio"
+   "fv": 6.2,
+   "nota": "Cartilagine ginocchio, fuori fino a febbraio"
   },
   {
    "nome": "Conceicao",
    "squadra": "Juventus",
    "ruolo": "C",
    "stato": "dubbio",
-   "prob": 5,
-   "fv": 6.5,
-   "nota": "Forse in panchina"
+   "prob": 45,
+   "fv": 6.7,
+   "nota": "Rientra dalla lussazione alla spalla"
   },
   {
    "nome": "Locatelli",
@@ -1390,7 +1389,7 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Alajbegovic",
@@ -1398,7 +1397,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 75,
-   "fv": 6.6
+   "fv": 6.8
   },
   {
    "nome": "Woltemade",
@@ -1406,7 +1405,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 90,
-   "fv": 7.0
+   "fv": 7.2
   },
   {
    "nome": "Kolo Muani",
@@ -1414,7 +1413,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.7
+   "fv": 6.9
   },
   {
    "nome": "Yildiz",
@@ -1422,15 +1421,16 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 7.0
+   "fv": 7.2
   },
   {
    "nome": "Gonzalez N.",
    "squadra": "Juventus",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.3
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 6.5,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Mandas",
@@ -1438,7 +1438,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 5.8
+   "fv": 5.9
   },
   {
    "nome": "Provstgaard",
@@ -1446,15 +1446,15 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
-   "nome": "Sutalo",
+   "nome": "Sutalo J.",
    "squadra": "Lazio",
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Floriani Mussolini",
@@ -1462,24 +1462,24 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.0
+   "fv": 6.1
   },
   {
    "nome": "Tavares N.",
    "squadra": "Lazio",
    "ruolo": "D",
-   "stato": "dubbio",
-   "prob": 60,
-   "fv": 6.6,
-   "nota": "Affaticamento flessore, Pedraza pronto"
+   "stato": "ballottaggio",
+   "prob": 65,
+   "fv": 6.7,
+   "nota": "Recupera dall'affaticamento nella sosta"
   },
   {
    "nome": "Pedraza",
    "squadra": "Lazio",
    "ruolo": "D",
    "stato": "ballottaggio",
-   "prob": 40,
-   "fv": 6.0
+   "prob": 35,
+   "fv": 6.1
   },
   {
    "nome": "Marusic",
@@ -1487,7 +1487,7 @@
    "ruolo": "D",
    "stato": "panchina",
    "prob": 20,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Frattesi",
@@ -1495,7 +1495,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
    "nome": "Belahyane",
@@ -1503,7 +1503,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.0
+   "fv": 6.1
   },
   {
    "nome": "Taylor K.",
@@ -1511,15 +1511,15 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Rovella",
    "squadra": "Lazio",
    "ruolo": "C",
-   "stato": "panchina",
-   "prob": 20,
-   "fv": 6.0,
+   "stato": "ballottaggio",
+   "prob": 40,
+   "fv": 6.1,
    "nota": "Rientra dall'infortunio"
   },
   {
@@ -1528,7 +1528,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
    "nome": "Noslin",
@@ -1536,7 +1536,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
    "nome": "Pinamonti",
@@ -1544,7 +1544,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 65,
-   "fv": 6.4,
+   "fv": 6.5,
    "nota": "Favorito su Cancellieri"
   },
   {
@@ -1553,23 +1553,25 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 35,
-   "fv": 6.3
+   "fv": 6.4
   },
   {
    "nome": "Zaccagni",
    "squadra": "Lazio",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.5
+   "stato": "dubbio",
+   "prob": 45,
+   "fv": 6.6,
+   "nota": "Rientro previsto dopo la sosta"
   },
   {
    "nome": "Gudmundsson A.",
    "squadra": "Lazio",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.4
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 6.5,
+   "nota": "Rientro previsto dopo la sosta"
   },
   {
    "nome": "Falcone",
@@ -1577,7 +1579,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Veiga D.",
@@ -1585,7 +1587,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Tiago Gabriel",
@@ -1593,7 +1595,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Siebert",
@@ -1601,16 +1603,15 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
-   "nome": "Gaspar",
+   "nome": "Gaspar K.",
    "squadra": "Lecce",
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 5.9,
-   "nota": "Torna dalla squalifica"
+   "fv": 5.8
   },
   {
    "nome": "Gallo",
@@ -1618,7 +1619,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Maleh",
@@ -1626,7 +1627,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Ngom",
@@ -1634,7 +1635,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Coulibaly L.",
@@ -1642,7 +1643,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Gorter",
@@ -1650,7 +1651,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Kaba",
@@ -1658,7 +1659,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 30,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "N'Dri",
@@ -1666,7 +1667,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.4
+   "fv": 6.3
   },
   {
    "nome": "Fatah",
@@ -1674,7 +1675,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Stulic",
@@ -1682,7 +1683,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 6.4
+   "fv": 6.3
   },
   {
    "nome": "Esteban",
@@ -1690,7 +1691,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 35,
-   "fv": 6.2
+   "fv": 6.1
   },
   {
    "nome": "Pierotti",
@@ -1698,7 +1699,7 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Ilic",
@@ -1706,23 +1707,23 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Berisha M.",
    "squadra": "Lecce",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 5.9
   },
   {
-   "nome": "Monteiro",
+   "nome": "Monteiro J.",
    "squadra": "Lecce",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 5.9
   },
   {
    "nome": "Maignan",
@@ -1730,7 +1731,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 92,
-   "fv": 6.3,
+   "fv": 6.5,
    "nota": "Prima fascia porta"
   },
   {
@@ -1739,7 +1740,7 @@
    "ruolo": "P",
    "stato": "panchina",
    "prob": 5,
-   "fv": 5.8
+   "fv": 6.0
   },
   {
    "nome": "Terracciano",
@@ -1747,7 +1748,7 @@
    "ruolo": "P",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 5.8
+   "fv": 6.0
   },
   {
    "nome": "Gila",
@@ -1755,7 +1756,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.2
+   "fv": 6.4
   },
   {
    "nome": "De Winter",
@@ -1763,16 +1764,15 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Pavlovic",
    "squadra": "Milan",
    "ruolo": "D",
-   "stato": "dubbio",
-   "prob": 55,
-   "fv": 6.3,
-   "nota": "Non al meglio, da valutare"
+   "stato": "ballottaggio",
+   "prob": 60,
+   "fv": 6.5
   },
   {
    "nome": "Diawara S.",
@@ -1780,7 +1780,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Bartesaghi",
@@ -1788,8 +1788,8 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.3,
-   "nota": "Gioca se Pavlovic non recupera"
+   "fv": 6.5,
+   "nota": "Ballottaggio con Pavlovic"
   },
   {
    "nome": "Tomori",
@@ -1797,7 +1797,7 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Gabbia",
@@ -1805,7 +1805,7 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Musah",
@@ -1813,7 +1813,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
    "nome": "Modric",
@@ -1821,7 +1821,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.5
+   "fv": 6.7
   },
   {
    "nome": "Rabiot",
@@ -1829,7 +1829,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.6
+   "fv": 6.8
   },
   {
    "nome": "Moreira",
@@ -1837,16 +1837,16 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.8,
+   "fv": 7.0,
    "nota": "Confermatissimo"
   },
   {
    "nome": "Loftus-Cheek",
    "squadra": "Milan",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.3
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 6.5
   },
   {
    "nome": "Saelemaekers",
@@ -1854,7 +1854,7 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.3
+   "fv": 6.5
   },
   {
    "nome": "Ramos G.",
@@ -1862,8 +1862,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 7.2,
-   "nota": "Da valutare dopo l'Europa League"
+   "fv": 7.4
   },
   {
    "nome": "Pulisic",
@@ -1871,8 +1870,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 7.1,
-   "nota": "Rigorista, da valutare"
+   "fv": 7.3
   },
   {
    "nome": "Chukwueze",
@@ -1880,7 +1878,7 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.3
+   "fv": 6.5
   },
   {
    "nome": "Tornqvist",
@@ -1918,9 +1916,10 @@
    "nome": "Birindelli",
    "squadra": "Monza",
    "ruolo": "C",
-   "stato": "titolare",
-   "prob": 85,
-   "fv": 6.1
+   "stato": "dubbio",
+   "prob": 65,
+   "fv": 6.1,
+   "nota": "Botta, da valutare nella sosta"
   },
   {
    "nome": "Akinsanmiro",
@@ -1955,7 +1954,7 @@
    "fv": 6.1
   },
   {
-   "nome": "Dany Mota",
+   "nome": "Mota",
    "squadra": "Monza",
    "ruolo": "A",
    "stato": "ballottaggio",
@@ -1971,7 +1970,7 @@
    "fv": 6.3
   },
   {
-   "nome": "Robinson",
+   "nome": "Robinson J.",
    "squadra": "Monza",
    "ruolo": "A",
    "stato": "ballottaggio",
@@ -1987,7 +1986,7 @@
    "fv": 6.2
   },
   {
-   "nome": "Varela",
+   "nome": "Varela G.",
    "squadra": "Monza",
    "ruolo": "A",
    "stato": "titolare",
@@ -2016,15 +2015,15 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Milinkovic-Savic V.",
    "squadra": "Napoli",
    "ruolo": "P",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.1
+   "stato": "panchina",
+   "prob": 10,
+   "fv": 6.2
   },
   {
    "nome": "Beukema",
@@ -2032,7 +2031,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Rrahmani",
@@ -2040,7 +2039,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Marin R.",
@@ -2048,7 +2047,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.0
+   "fv": 6.2
   },
   {
    "nome": "Di Lorenzo",
@@ -2056,8 +2055,7 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.2,
-   "nota": "Lesione, out"
+   "fv": 6.4
   },
   {
    "nome": "Buongiorno",
@@ -2065,7 +2063,7 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Olivera",
@@ -2073,24 +2071,24 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Spinazzola",
    "squadra": "Napoli",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.1
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 6.2,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Marianucci",
    "squadra": "Napoli",
    "ruolo": "D",
-   "stato": "squalificato",
-   "prob": 0,
-   "fv": 5.9,
-   "nota": "Squalificato"
+   "stato": "panchina",
+   "prob": 15,
+   "fv": 6.1
   },
   {
    "nome": "Politano",
@@ -2098,15 +2096,15 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.5
+   "fv": 6.7
   },
   {
-   "nome": "Anguissa",
+   "nome": "Zambo Anguissa",
    "squadra": "Napoli",
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.5
+   "fv": 6.7
   },
   {
    "nome": "De Bruyne",
@@ -2114,7 +2112,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 7.0
+   "fv": 7.2
   },
   {
    "nome": "Gilmour",
@@ -2122,7 +2120,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "McTominay",
@@ -2130,7 +2128,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 7.0
+   "fv": 7.2
   },
   {
    "nome": "Lobotka",
@@ -2138,7 +2136,7 @@
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.1
+   "fv": 6.2
   },
   {
    "nome": "Lang",
@@ -2146,7 +2144,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 65,
-   "fv": 6.6
+   "fv": 6.8
   },
   {
    "nome": "Giovane",
@@ -2154,7 +2152,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.5
+   "fv": 6.7
   },
   {
    "nome": "Vergara",
@@ -2162,7 +2160,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.6
+   "fv": 6.8
   },
   {
    "nome": "Hojlund",
@@ -2170,15 +2168,16 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 90,
-   "fv": 7.1
+   "fv": 7.2
   },
   {
    "nome": "Neres",
    "squadra": "Napoli",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.5
+   "stato": "ballottaggio",
+   "prob": 40,
+   "fv": 6.7,
+   "nota": "Recupera nella sosta"
   },
   {
    "nome": "Daffara",
@@ -2186,7 +2185,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Delprato",
@@ -2194,7 +2193,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Troilo",
@@ -2202,15 +2201,15 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
-   "nome": "Ndiaye A.",
+   "nome": "Ndiaye",
    "squadra": "Parma",
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Diego Carlos",
@@ -2218,7 +2217,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9,
+   "fv": 5.8,
    "nota": "Ballottaggio con Ndiaye"
   },
   {
@@ -2227,15 +2226,15 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.0
   },
   {
-   "nome": "Keita",
+   "nome": "Keita M.",
    "squadra": "Parma",
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Sierro",
@@ -2243,7 +2242,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Nicolussi Caviglia",
@@ -2251,7 +2250,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.1
+   "fv": 6.0
   },
   {
    "nome": "Fabbian",
@@ -2259,7 +2258,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 70,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Valeri",
@@ -2267,7 +2266,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.2
+   "fv": 6.1
   },
   {
    "nome": "Lontani",
@@ -2275,64 +2274,65 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.4
+   "fv": 6.3
   },
   {
-   "nome": "Toure E.",
+   "nome": "Tourè E.",
    "squadra": "Parma",
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 6.4
+   "fv": 6.3
   },
   {
-   "nome": "Romero J.",
+   "nome": "Romero D.",
    "squadra": "Parma",
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Bernabè",
    "squadra": "Parma",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.1
+   "stato": "dubbio",
+   "prob": 35,
+   "fv": 6.0
   },
   {
    "nome": "Drobnic",
    "squadra": "Parma",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 5.9
   },
   {
    "nome": "Vasquez D.",
    "squadra": "Roma",
    "ruolo": "P",
-   "stato": "titolare",
-   "prob": 75,
-   "fv": 6.0
+   "stato": "ballottaggio",
+   "prob": 40,
+   "fv": 6.0,
+   "nota": "Titolare se Svilar non recupera"
   },
   {
    "nome": "Gollini",
    "squadra": "Roma",
    "ruolo": "P",
-   "stato": "dubbio",
-   "prob": 20,
-   "fv": 5.9,
-   "nota": "Schiena, decisione all'ultimo"
+   "stato": "panchina",
+   "prob": 5,
+   "fv": 6.0
   },
   {
    "nome": "Svilar",
    "squadra": "Roma",
    "ruolo": "P",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.2
+   "stato": "dubbio",
+   "prob": 60,
+   "fv": 6.2,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Mancini",
@@ -2340,7 +2340,8 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 6.2
+   "fv": 6.2,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Ghilardi",
@@ -2351,7 +2352,7 @@
    "fv": 6.0
   },
   {
-   "nome": "Ndicka",
+   "nome": "N'Dicka",
    "squadra": "Roma",
    "ruolo": "D",
    "stato": "titolare",
@@ -2380,14 +2381,14 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 70,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
    "nome": "Rensch",
    "squadra": "Roma",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 15,
    "fv": 6.0
   },
   {
@@ -2432,15 +2433,15 @@
    "nota": "Ballottaggio con De Roon"
   },
   {
-   "nome": "Mora C.",
+   "nome": "Mora",
    "squadra": "Roma",
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.4
+   "fv": 6.5
   },
   {
-   "nome": "Kone M.",
+   "nome": "Konè M.",
    "squadra": "Roma",
    "ruolo": "C",
    "stato": "infortunato",
@@ -2456,7 +2457,7 @@
    "fv": 6.3
   },
   {
-   "nome": "Soulé",
+   "nome": "Soulè",
    "squadra": "Roma",
    "ruolo": "A",
    "stato": "titolare",
@@ -2473,7 +2474,7 @@
    "fv": 7.1
   },
   {
-   "nome": "Castro",
+   "nome": "Castro S.",
    "squadra": "Roma",
    "ruolo": "A",
    "stato": "ballottaggio",
@@ -2484,9 +2485,10 @@
    "nome": "Dybala",
    "squadra": "Roma",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.8
+   "stato": "dubbio",
+   "prob": 35,
+   "fv": 6.8,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Turati",
@@ -2494,7 +2496,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Muric",
@@ -2502,7 +2504,7 @@
    "ruolo": "P",
    "stato": "panchina",
    "prob": 10,
-   "fv": 5.7
+   "fv": 5.8
   },
   {
    "nome": "Walukiewicz",
@@ -2510,7 +2512,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 80,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Idzes",
@@ -2526,7 +2528,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Doig",
@@ -2558,8 +2560,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.2,
-   "nota": "Torna dalla squalifica"
+   "fv": 6.2
   },
   {
    "nome": "Bakola",
@@ -2573,13 +2574,13 @@
    "nome": "Volpato",
    "squadra": "Sassuolo",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 35,
    "fv": 6.0,
-   "nota": "Indisponibile"
+   "nota": "Infortunio muscolare, da valutare"
   },
   {
-   "nome": "Kone I.",
+   "nome": "Konè I.",
    "squadra": "Sassuolo",
    "ruolo": "C",
    "stato": "infortunato",
@@ -2587,32 +2588,32 @@
    "fv": 6.1
   },
   {
-   "nome": "Leysen",
+   "nome": "Leysen F.",
    "squadra": "Sassuolo",
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Berardi",
    "squadra": "Sassuolo",
    "ruolo": "A",
-   "stato": "infortunato",
-   "prob": 0,
+   "stato": "dubbio",
+   "prob": 50,
    "fv": 6.8,
-   "nota": "Salta la Roma"
+   "nota": "Infortunio da valutare dopo la sosta"
   },
   {
-   "nome": "Laurienté",
+   "nome": "Laurientè",
    "squadra": "Sassuolo",
    "ruolo": "A",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.7
+   "fv": 6.8
   },
   {
-   "nome": "Esposito Seb.",
+   "nome": "Esposito Se.",
    "squadra": "Sassuolo",
    "ruolo": "A",
    "stato": "titolare",
@@ -2633,7 +2634,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Coco",
@@ -2641,7 +2642,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Ismajli",
@@ -2649,7 +2650,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Comuzzo",
@@ -2657,7 +2658,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Belghali",
@@ -2665,7 +2666,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 80,
-   "fv": 6.1
+   "fv": 5.9
   },
   {
    "nome": "Braganca",
@@ -2673,7 +2674,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.1
+   "fv": 5.9
   },
   {
    "nome": "Gineitis",
@@ -2681,7 +2682,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 30,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Ilkhan",
@@ -2689,7 +2690,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 35,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Aboukhlal",
@@ -2697,7 +2698,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.2
+   "fv": 6.0
   },
   {
    "nome": "Patterson",
@@ -2705,7 +2706,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Vlasic",
@@ -2713,7 +2714,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.6
+   "fv": 6.4
   },
   {
    "nome": "Adams C.",
@@ -2721,7 +2722,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.7
+   "fv": 6.5
   },
   {
    "nome": "Simeone",
@@ -2729,7 +2730,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.6
+   "fv": 6.4
   },
   {
    "nome": "Cacciamani",
@@ -2737,7 +2738,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.1,
+   "fv": 5.9,
    "nota": "Recuperato, ballottaggio con Patterson"
   },
   {
@@ -2746,31 +2747,32 @@
    "ruolo": "C",
    "stato": "panchina",
    "prob": 10,
-   "fv": 6.1
+   "fv": 5.9
   },
   {
    "nome": "Rodriguez R.",
    "squadra": "Torino",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 5.8,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Israel",
    "squadra": "Torino",
    "ruolo": "P",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 5.8
+   "stato": "panchina",
+   "prob": 5,
+   "fv": 5.6
   },
   {
    "nome": "Fortini",
    "squadra": "Torino",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 5.9
+   "stato": "dubbio",
+   "prob": 30,
+   "fv": 5.8
   },
   {
    "nome": "Okoye",
@@ -2778,7 +2780,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Abankwah",
@@ -2786,7 +2788,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 70,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Palma",
@@ -2794,7 +2796,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Solet",
@@ -2802,7 +2804,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.1,
+   "fv": 6.0,
    "nota": "Ballottaggio con Kabasele"
   },
   {
@@ -2811,7 +2813,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 5.9
+   "fv": 5.8
   },
   {
    "nome": "Vojvoda",
@@ -2819,7 +2821,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.0
   },
   {
    "nome": "Kamara H.",
@@ -2827,7 +2829,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 6.0
   },
   {
    "nome": "Karlstrom",
@@ -2835,8 +2837,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0,
-   "nota": "Diffidato"
+   "fv": 5.9
   },
   {
    "nome": "Miller L.",
@@ -2844,7 +2845,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Piotrowski",
@@ -2852,7 +2853,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Ekkelenkamp",
@@ -2860,7 +2861,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.4
+   "fv": 6.3
   },
   {
    "nome": "Zaniolo",
@@ -2868,49 +2869,51 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.6
+   "fv": 6.5
   },
   {
    "nome": "Davis K.",
    "squadra": "Udinese",
    "ruolo": "A",
-   "stato": "dubbio",
-   "prob": 60,
-   "fv": 6.6,
+   "stato": "titolare",
+   "prob": 75,
+   "fv": 6.5,
    "nota": "Non al top, vuole esserci"
   },
   {
-   "nome": "Bayo",
+   "nome": "Bayo V.",
    "squadra": "Udinese",
    "ruolo": "A",
-   "stato": "ballottaggio",
-   "prob": 40,
-   "fv": 6.2,
-   "nota": "Rientrato in gruppo"
+   "stato": "infortunato",
+   "prob": 0,
+   "fv": 6.1,
+   "nota": "Bicipite femorale, 3-4 settimane"
   },
   {
    "nome": "Alaba",
    "squadra": "Udinese",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 5.9,
+   "nota": "Rientro dopo la sosta"
   },
   {
    "nome": "Zanoli",
    "squadra": "Udinese",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 5.9,
+   "nota": "Rientro dopo la sosta"
   },
   {
-   "nome": "Gueye I.",
+   "nome": "Gueye",
    "squadra": "Udinese",
    "ruolo": "C",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.0
+   "fv": 5.9
   },
   {
    "nome": "Stankovic F.",
@@ -2918,7 +2921,7 @@
    "ruolo": "P",
    "stato": "titolare",
    "prob": 90,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Hainaut",
@@ -2926,7 +2929,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Halhal",
@@ -2934,7 +2937,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Juan Jesus",
@@ -2942,7 +2945,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 85,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Moreno M.",
@@ -2950,7 +2953,7 @@
    "ruolo": "D",
    "stato": "titolare",
    "prob": 80,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Busio",
@@ -2958,7 +2961,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 70,
-   "fv": 6.2
+   "fv": 6.0
   },
   {
    "nome": "Sohm",
@@ -2966,7 +2969,7 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.1
+   "fv": 5.9
   },
   {
    "nome": "Perez K.",
@@ -2974,7 +2977,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 60,
-   "fv": 6.0,
+   "fv": 5.8,
    "nota": "Ballottaggio con Helgason"
   },
   {
@@ -2983,15 +2986,15 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 30,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Mazzocchi",
    "squadra": "Venezia",
    "ruolo": "C",
-   "stato": "ballottaggio",
-   "prob": 55,
-   "fv": 6.1,
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 5.9,
    "nota": "Ballottaggio con Haps"
   },
   {
@@ -3000,7 +3003,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Adams A.",
@@ -3008,7 +3011,7 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.6
+   "fv": 6.4
   },
   {
    "nome": "Lauberbach",
@@ -3016,7 +3019,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 45,
-   "fv": 6.4
+   "fv": 6.2
   },
   {
    "nome": "Yeboah J.",
@@ -3024,7 +3027,7 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 55,
-   "fv": 6.4,
+   "fv": 6.2,
    "nota": "Leggermente avanti su Lauberbach"
   },
   {
@@ -3033,7 +3036,7 @@
    "ruolo": "A",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 6.2
+   "fv": 6.0
   },
   {
    "nome": "Sverko",
@@ -3041,15 +3044,15 @@
    "ruolo": "D",
    "stato": "infortunato",
    "prob": 0,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Franjic",
    "squadra": "Venezia",
    "ruolo": "C",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 20,
+   "fv": 5.8
   },
   {
    "nome": "Basic",
@@ -3057,7 +3060,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 25,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Terzic",
@@ -3065,7 +3068,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 5.9
+   "fv": 5.7
   },
   {
    "nome": "Fitz-Jim",
@@ -3073,7 +3076,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.0
+   "fv": 5.8
   },
   {
    "nome": "Orsolini",
@@ -3081,11 +3084,11 @@
    "ruolo": "A",
    "stato": "ballottaggio",
    "prob": 35,
-   "fv": 6.6,
+   "fv": 6.7,
    "nota": "Rientrato, verso la panchina"
   },
   {
-   "nome": "Dominguez",
+   "nome": "Dominguez B.",
    "squadra": "Sassuolo",
    "ruolo": "A",
    "stato": "ballottaggio",
@@ -3098,7 +3101,7 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 5.9
+   "fv": 6.0
   },
   {
    "nome": "Baldanzi",
@@ -3106,7 +3109,7 @@
    "ruolo": "C",
    "stato": "ballottaggio",
    "prob": 50,
-   "fv": 6.3
+   "fv": 6.2
   },
   {
    "nome": "Estupinan",
@@ -3114,10 +3117,10 @@
    "ruolo": "D",
    "stato": "ballottaggio",
    "prob": 40,
-   "fv": 6.1
+   "fv": 6.3
   },
   {
-   "nome": "Carboni",
+   "nome": "Carboni A.",
    "squadra": "Monza",
    "ruolo": "D",
    "stato": "ballottaggio",
@@ -3142,7 +3145,7 @@
    "fv": 6.0
   },
   {
-   "nome": "Sucic",
+   "nome": "Sucic P.",
    "squadra": "Inter",
    "ruolo": "C",
    "stato": "ballottaggio",
@@ -3154,8 +3157,8 @@
    "squadra": "Juventus",
    "ruolo": "D",
    "stato": "ballottaggio",
-   "prob": 50,
-   "fv": 6.2
+   "prob": 55,
+   "fv": 6.4
   }
  ]
 }
