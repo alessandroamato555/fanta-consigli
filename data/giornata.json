@@ -1,10 +1,12 @@
 {
  "giornata": 12,
- "aggiornato": "2026-11-07T21:10:00+01:00",
+ "aggiornato": "2026-11-08T21:45:00+01:00",
  "fonti": [
   "fantacalcio.it",
   "fantamaster.it",
-  "calciodangolo.com"
+  "calciodangolo.com",
+  "sky.it",
+  "corrieredellosport.it"
  ],
  "squadre": [
   "Atalanta",
@@ -620,7 +622,8 @@
    "ruolo": "C",
    "stato": "titolare",
    "prob": 90,
-   "fv": 6.4
+   "fv": 6.4,
+   "nota": "Errore sul 2-0 Inter"
   },
   {
    "nome": "Milla",
@@ -833,7 +836,8 @@
    "ruolo": "A",
    "stato": "titolare",
    "prob": 85,
-   "fv": 6.5
+   "fv": 6.5,
+   "nota": "Gol alla Juve, titolare su Beto"
   },
   {
    "nome": "Njie",
@@ -850,7 +854,7 @@
    "stato": "panchina",
    "prob": 15,
    "fv": 6.3,
-   "nota": "Panchina, Pellegrino favorito"
+   "nota": "Panchina, Pellegrino in gol"
   },
   {
    "nome": "Palmisani",
@@ -1180,9 +1184,9 @@
    "squadra": "Inter",
    "ruolo": "D",
    "stato": "ballottaggio",
-   "prob": 55,
+   "prob": 60,
    "fv": 6.5,
-   "nota": "Leggermente avanti su Diouf"
+   "nota": "Assist al Como, avanti su Diouf"
   },
   {
    "nome": "Carlos Augusto",
@@ -1246,9 +1250,9 @@
    "squadra": "Inter",
    "ruolo": "A",
    "stato": "ballottaggio",
-   "prob": 50,
-   "fv": 7.0,
-   "nota": "Dipende dal rientro di Lautaro"
+   "prob": 55,
+   "fv": 7.1,
+   "nota": "Gol al Como, Lautaro rientra dopo sosta"
   },
   {
    "nome": "Bonny",
@@ -3156,9 +3160,10 @@
    "nome": "Cambiaso",
    "squadra": "Juventus",
    "ruolo": "D",
-   "stato": "ballottaggio",
-   "prob": 55,
-   "fv": 6.4
+   "stato": "dubbio",
+   "prob": 40,
+   "fv": 6.4,
+   "nota": "Affaticamento, saltato la Fiorentina"
   }
  ]
 }
