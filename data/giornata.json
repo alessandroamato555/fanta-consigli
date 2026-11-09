@@ -1,6 +1,6 @@
 {
  "giornata": 12,
- "aggiornato": "2026-11-08T21:45:00+01:00",
+ "aggiornato": "2026-11-09T10:40:00+01:00",
  "fonti": [
   "fantacalcio.it",
   "fantamaster.it",
@@ -1276,9 +1276,9 @@
    "squadra": "Inter",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 50,
+   "prob": 60,
    "fv": 7.3,
-   "nota": "Rientra dopo la sosta, da valutare"
+   "nota": "Flessori, filtra ottimismo per Bergamo"
   },
   {
    "nome": "Luis Henrique",
@@ -1383,9 +1383,9 @@
    "squadra": "Juventus",
    "ruolo": "C",
    "stato": "dubbio",
-   "prob": 45,
+   "prob": 55,
    "fv": 6.7,
-   "nota": "Rientra dalla lussazione alla spalla"
+   "nota": "Spalla ok, rientro previsto in 12a"
   },
   {
    "nome": "Locatelli",
@@ -1432,9 +1432,9 @@
    "squadra": "Juventus",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 30,
+   "prob": 45,
    "fv": 6.5,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Rientro fissato per la 12a"
   },
   {
    "nome": "Mandas",
@@ -1456,9 +1456,10 @@
    "nome": "Sutalo J.",
    "squadra": "Lazio",
    "ruolo": "D",
-   "stato": "titolare",
-   "prob": 85,
-   "fv": 6.0
+   "stato": "dubbio",
+   "prob": 15,
+   "fv": 6.0,
+   "nota": "Problema alla coscia, poco ottimismo"
   },
   {
    "nome": "Floriani Mussolini",
@@ -1472,10 +1473,10 @@
    "nome": "Tavares N.",
    "squadra": "Lazio",
    "ruolo": "D",
-   "stato": "ballottaggio",
-   "prob": 65,
+   "stato": "dubbio",
+   "prob": 45,
    "fv": 6.7,
-   "nota": "Recupera dall'affaticamento nella sosta"
+   "nota": "Nuovo fastidio ai flessori, da valutare"
   },
   {
    "nome": "Pedraza",
@@ -1564,18 +1565,18 @@
    "squadra": "Lazio",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 45,
+   "prob": 50,
    "fv": 6.6,
-   "nota": "Rientro previsto dopo la sosta"
+   "nota": "Quadricipite, prova a rientrare col Lecce"
   },
   {
    "nome": "Gudmundsson A.",
    "squadra": "Lazio",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 30,
+   "prob": 25,
    "fv": 6.5,
-   "nota": "Rientro previsto dopo la sosta"
+   "nota": "Spalla, forse convocato ma senza minutaggio"
   },
   {
    "nome": "Falcone",
@@ -1774,9 +1775,10 @@
    "nome": "Pavlovic",
    "squadra": "Milan",
    "ruolo": "D",
-   "stato": "ballottaggio",
-   "prob": 60,
-   "fv": 6.5
+   "stato": "dubbio",
+   "prob": 45,
+   "fv": 6.5,
+   "nota": "Coliche e fastidio alla spalla"
   },
   {
    "nome": "Diawara S.",
@@ -1791,9 +1793,9 @@
    "squadra": "Milan",
    "ruolo": "D",
    "stato": "ballottaggio",
-   "prob": 45,
+   "prob": 55,
    "fv": 6.5,
-   "nota": "Ballottaggio con Pavlovic"
+   "nota": "Ballottaggio con Pavlovic, acciaccato"
   },
   {
    "nome": "Tomori",
@@ -2057,9 +2059,10 @@
    "nome": "Di Lorenzo",
    "squadra": "Napoli",
    "ruolo": "D",
-   "stato": "infortunato",
-   "prob": 0,
-   "fv": 6.4
+   "stato": "dubbio",
+   "prob": 15,
+   "fv": 6.4,
+   "nota": "Adduttore, ancora due settimane: caso limite"
   },
   {
    "nome": "Buongiorno",
@@ -2178,10 +2181,10 @@
    "nome": "Neres",
    "squadra": "Napoli",
    "ruolo": "A",
-   "stato": "ballottaggio",
-   "prob": 40,
+   "stato": "infortunato",
+   "prob": 0,
    "fv": 6.7,
-   "nota": "Recupera nella sosta"
+   "nota": "Lesione semimembranoso, salta la 12a"
   },
   {
    "nome": "Daffara",
@@ -2334,18 +2337,18 @@
    "squadra": "Roma",
    "ruolo": "P",
    "stato": "dubbio",
-   "prob": 60,
+   "prob": 70,
    "fv": 6.2,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Mignolo piede, ottimismo per Parma"
   },
   {
    "nome": "Mancini",
    "squadra": "Roma",
    "ruolo": "D",
    "stato": "ballottaggio",
-   "prob": 55,
+   "prob": 60,
    "fv": 6.2,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Dovrebbe tornare dopo la sosta"
   },
   {
    "nome": "Ghilardi",
@@ -2392,7 +2395,7 @@
    "squadra": "Roma",
    "ruolo": "D",
    "stato": "dubbio",
-   "prob": 15,
+   "prob": 25,
    "fv": 6.0
   },
   {
@@ -2490,9 +2493,9 @@
    "squadra": "Roma",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 35,
+   "prob": 50,
    "fv": 6.8,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Polpaccio, dovrebbe tornare in 12a"
   },
   {
    "nome": "Turati",
@@ -2579,9 +2582,9 @@
    "squadra": "Sassuolo",
    "ruolo": "C",
    "stato": "dubbio",
-   "prob": 35,
+   "prob": 45,
    "fv": 6.0,
-   "nota": "Infortunio muscolare, da valutare"
+   "nota": "Dovrebbe tornare in 12a"
   },
   {
    "nome": "Konè I.",
@@ -2604,9 +2607,9 @@
    "squadra": "Sassuolo",
    "ruolo": "A",
    "stato": "dubbio",
-   "prob": 50,
+   "prob": 60,
    "fv": 6.8,
-   "nota": "Infortunio da valutare dopo la sosta"
+   "nota": "Dovrebbe tornare in 12a"
   },
   {
    "nome": "Laurientè",
@@ -2758,9 +2761,9 @@
    "squadra": "Torino",
    "ruolo": "D",
    "stato": "dubbio",
-   "prob": 40,
+   "prob": 50,
    "fv": 5.8,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Dovrebbe tornare in 12a"
   },
   {
    "nome": "Israel",
@@ -2898,18 +2901,18 @@
    "squadra": "Udinese",
    "ruolo": "D",
    "stato": "dubbio",
-   "prob": 40,
+   "prob": 50,
    "fv": 5.9,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Dovrebbe tornare in 12a"
   },
   {
    "nome": "Zanoli",
    "squadra": "Udinese",
    "ruolo": "D",
    "stato": "dubbio",
-   "prob": 40,
+   "prob": 50,
    "fv": 5.9,
-   "nota": "Rientro dopo la sosta"
+   "nota": "Piccola ricaduta, escluse lesioni"
   },
   {
    "nome": "Gueye",
@@ -3164,6 +3167,77 @@
    "prob": 40,
    "fv": 6.4,
    "nota": "Affaticamento, saltato la Fiorentina"
+  },
+  {
+   "nome": "Santos A.",
+   "squadra": "Napoli",
+   "ruolo": "A",
+   "stato": "infortunato",
+   "prob": 0,
+   "fv": 6.3,
+   "nota": "Bicipite femorale, rientro a dicembre"
+  },
+  {
+   "nome": "Favasuli",
+   "squadra": "Napoli",
+   "ruolo": "D",
+   "stato": "infortunato",
+   "prob": 0,
+   "fv": 6.0,
+   "nota": "Retto femorale, circa 1 mese e mezzo"
+  },
+  {
+   "nome": "Badiashile",
+   "squadra": "Napoli",
+   "ruolo": "D",
+   "stato": "dubbio",
+   "prob": 20,
+   "fv": 6.0,
+   "nota": "Retto femorale, da valutare"
+  },
+  {
+   "nome": "Chalobah T.",
+   "squadra": "Como",
+   "ruolo": "D",
+   "stato": "dubbio",
+   "prob": 35,
+   "fv": 6.1,
+   "nota": "Problema muscolare coscia, da valutare"
+  },
+  {
+   "nome": "Enem",
+   "squadra": "Bologna",
+   "ruolo": "A",
+   "stato": "infortunato",
+   "prob": 0,
+   "fv": 6.0,
+   "nota": "Salta la 12a"
+  },
+  {
+   "nome": "Aurelio",
+   "squadra": "Cagliari",
+   "ruolo": "D",
+   "stato": "infortunato",
+   "prob": 0,
+   "fv": 5.8,
+   "nota": "Soleo, salta la 12a"
+  },
+  {
+   "nome": "Trepy",
+   "squadra": "Cagliari",
+   "ruolo": "A",
+   "stato": "dubbio",
+   "prob": 20,
+   "fv": 6.0
+  },
+  {
+   "nome": "Geubbels",
+   "squadra": "Lecce",
+   "ruolo": "A",
+   "stato": "dubbio",
+   "prob": 25,
+   "fv": 6.1,
+   "nota": "Adduttore, da valutare"
   }
  ]
 }
